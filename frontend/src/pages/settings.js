@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-function settings() {
+function Settings() {
   return (
-    <div>settings</div>
-  )
-}
+    <div>Settings</div>
+  );
+};
 
-export default settings
+export default Settings;

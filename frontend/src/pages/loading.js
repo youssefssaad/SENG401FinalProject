@@ -1,9 +1,9 @@
 import React from 'react'
 
-function mainpage() {
+function Loading() {
   return (
-    <div>mainpage</div>
-  )
-}
+    <div>loading</div>
+  );
+};
 
-export default mainpage
+export default Loading;

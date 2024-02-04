@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-function budget() {
+function Budget() {
   return (
     <div>budget</div>
-  )
-}
+  );
+};
 
-export default budget
+export default Budget;

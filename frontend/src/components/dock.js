@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-function dock() {
+function Dock() {
   return (
     <div>dock</div>
-  )
-}
+  );
+};
 
-export default dock
+export default Dock;

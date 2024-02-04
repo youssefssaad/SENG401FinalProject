@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-function education() {
+function Education() {
   return (
     <div>education</div>
-  )
-}
+  );
+};
 
-export default education
+export default Education;
