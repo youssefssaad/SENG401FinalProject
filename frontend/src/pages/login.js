@@ -6,20 +6,38 @@ const Login = () => {
     password: ""
   })
 
-  const handleSubmit = () => {
-    if (input.username !== "" && input.password !== "") {         // placeholder. databse authentication would be here
-    alert(`What's good ${input.username}?!`);
-    } else {
-      alert("Lock in bro");
-  };
-  }
-
   const handleInput = (e) => {
     const { name, value } = e.target;
     setInput((prev) => ({
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input.username !== "" && input.password !== "") {  
+      const formData = {
+        username: input.username,
+        password: input.password,
+      };
+      fetch('http://localhost:3000/login', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`What's good ${input.username}?!`);
+      })
+      .catch(() => {
+        alert("There was an error processing your registration.");
+      });
+    } else {
+      alert("Lock in bro");
+    }
   };
 
   return (
