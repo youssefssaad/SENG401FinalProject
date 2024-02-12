@@ -1,10 +1,7 @@
 package com.example.WealthWave.authentication.dtos;
 public record UserInfo(
-        String sub,
-        String name,
-        String given_name,
-        String family_name,
-        String picture,
+        String firstName,
+        String lastName,
         String email,
         boolean email_verified
 ) { }

@@ -78,7 +78,7 @@ public class AuthController {
                 String email = payload.getEmail();
                 String name = (String) payload.get("name");
 
-                // Can implement the logic to create or update the user in your database
+                // Can implement the logic to create or update the user in the database, we'll have to figure that out
                 // For now we generate a simple session ID or token for the user
                 String userSessionToken = UUID.randomUUID().toString();
 
