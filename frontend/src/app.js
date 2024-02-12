@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Settings from "./pages/Settings";
 import Register from "./pages/Register";
+import '@fortawesome/fontawesome-free/css/all.css';
 
 function App() {
   return (

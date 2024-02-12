@@ -23,6 +23,26 @@ form > input {
     font-size: 10px;
 }
 
+div > h1{
+    text-align: center;
+    background-color: #194851;
+    color: #12343b;
+    margin-bottom: 0px;
+    padding: 10px;
+}
+
+form>div>input{
+    padding: 10px;
+    margin-bottom: 20px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 10px;
+    align-items: center;
+}
+
+
+
 button[type="submit"] {
     padding: 10px;
     border: none;
