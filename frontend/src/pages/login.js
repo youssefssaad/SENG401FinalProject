@@ -1,10 +1,20 @@
 import React , {useState} from 'react';
+// import GoogleSignIn from './GoogleSignIn';
 
 const Login = () => {
   const [input, setInput] = useState({
     username: "",
     password: ""
   })
+
+  // const handleSignInSuccess = (googleUser) => {
+  //   const idToken = googleUser.getAuthResponse().id_token;
+  //   console.log("User signed in successfully with token:", idToken);
+  // };
+  
+  // const handleSignInFailure = (error) => {
+  //   console.error("Sign in failed", error);
+  // };
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -22,7 +32,7 @@ const Login = () => {
         password: input.password,
       };
       fetch('http://localhost:3000/login', {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -47,6 +57,10 @@ const Login = () => {
       <button type="submit">Login</button>
       <p className='registeration'> Don't got an account?</p> 
       <a href="/register" type='registration_link'>Sign up here!</a>
+      {/* <GoogleSignIn 
+        onSignInSuccess={handleSignInSuccess} 
+        onSignInFailure={handleSignInFailure} 
+      /> */}
     </form>
   );
 };
