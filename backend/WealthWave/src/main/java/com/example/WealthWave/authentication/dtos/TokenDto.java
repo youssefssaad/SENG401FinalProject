@@ -1,17 +1,19 @@
 package com.example.WealthWave.authentication.dtos;
-//public record TokenDto(String token) {
-//}
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TokenDto {
-    private String token;
+    @JsonProperty("tokenId")
+    private String tokenId;
     public TokenDto() {
     }
-    public TokenDto(String token) {
-        this.token = token;
+    public TokenDto(String tokenId) {
+        this.tokenId = tokenId;
     }
     public String getToken() {
-        return token;
+        return tokenId;
     }
-    public void setToken(String token) {
-        this.token = token;
+    public void setToken(String tokenId) {
+        this.tokenId = tokenId;
     }
 }
