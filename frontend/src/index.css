@@ -91,3 +91,49 @@ a[type="registration_link"]{
     color: #c9af98;
     margin-bottom: 0px;
 }
+
+nav {
+    background-color: #333;
+    color: #F5F5F5;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 8px;
+    width: fit-content;
+    box-shadow: 10px 15px 20px rgba(0, 0, 0, 0.8);
+    margin: 0 auto;
+    margin-top: 10px;
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+nav li {
+    display: inline;
+    margin-right: 40px;
+}
+
+nav a {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+nav button{
+    background: none;
+    color: #ccc;
+    border: none;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    font-size: x-large;
+    margin-left: 20px;
+    margin-top: 6px;
+}
+
+nav button:hover{
+    cursor: pointer;
+    background: #697c8f;
+}
