@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "../components/Navbar";
 
 function Expenses() {
   const [totalBudget, setTotalBudget] = useState(1000); // Set an initial total budget value
@@ -23,6 +24,7 @@ function Expenses() {
 
   return (
     <div>
+      <Navbar />
       <div>
         <h1>Expenses</h1>
       </div>
