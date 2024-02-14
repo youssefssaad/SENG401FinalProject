@@ -7,15 +7,6 @@ const Login = () => {
     password: ""
   })
 
-  // const handleSignInSuccess = (googleUser) => {
-  //   const idToken = googleUser.getAuthResponse().id_token;
-  //   console.log("User signed in successfully with token:", idToken);
-  // };
-  
-  // const handleSignInFailure = (error) => {
-  //   console.error("Sign in failed", error);
-  // };
-
   const handleInput = (e) => {
     const { name, value } = e.target;
     setInput((prev) => ({
@@ -57,10 +48,6 @@ const Login = () => {
       <button type="submit">Login</button>
       <p className='registeration'> Don't got an account?</p> 
       <a href="/register" type='registration_link'>Sign up here!</a>
-      {/* <GoogleSignIn 
-        onSignInSuccess={handleSignInSuccess} 
-        onSignInFailure={handleSignInFailure} 
-      /> */}
     </form>
   );
 };
