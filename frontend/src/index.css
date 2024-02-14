@@ -10,8 +10,9 @@ form {
     margin: 0 auto;
     margin-top: 15%;
     padding: 20px;
-    border: 2px dashed #c9af98;
-    border-radius: 2px;
+    border: 2px rgba(201,175,152,0.9);
+    background-color: rgba(201, 175, 152, 0.7);
+    border-radius: 7px;
 }
 
 form > input {
@@ -50,7 +51,7 @@ div>button{
     background-color: #c9af98;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 1s ease;
 }
 
 /* could replace with just button */
@@ -59,21 +60,34 @@ ul>li>button{
     border: none;
     margin: 5px;
     border-radius: 3px;
-    background-color: #c9af98;
+    background-color: #6c171e;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: #cc2936 0.3s ease;
+}
 
+p{
+    background-color: rgba(201, 175, 152, 0.3);
+    border: 2px rgba(201,175,152,0.9);
+
+}
+
+a{
+    
+        background-color: rgba(201, 175, 152, 0.3);
+        border: 2px rgba(201,175,152,0.9);
+    
+    
 }
 
 button[type="submit"] {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #c9af98;
+    background-color: #6c171e;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: #cc2936 0.3s ease;
 }
 
 button[type="submit"]:hover {
