@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import Modal from "../components/Modal";
+import questionIcon from "../assets/question_icon.png";
+import Instruction from "../components/Instruction";
 
 function Expenses() {
-  const [totalBudget, setTotalBudget] = useState(1000); // Set an initial total budget value
+  const [totalBudget, setTotalBudget] = useState(1000);
   const [expenses, setExpenses] = useState({
     rent: 500,
     food: 200,
@@ -12,11 +14,12 @@ function Expenses() {
     investment: 150,
   });
 
+  const [showModal, setShowModal] = useState(false);
+  const [showInstruction, setShowInstruction] = useState(false);
+
   const handleBudgetChange = (amount) => {
     setTotalBudget((prevBudget) => prevBudget + amount);
   };
-
-  const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
@@ -24,6 +27,14 @@ function Expenses() {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const openInstruction = () => {
+    setShowInstruction(true);
+  };
+
+  const closeInstruction = () => {
+    setShowInstruction(false);
   };
 
   const handleExpenseChange = (category, amount) => {
@@ -34,12 +45,12 @@ function Expenses() {
   };
 
   useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+    if (showModal || showInstruction) {
+      document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [showModal]);
+  }, [showModal, showInstruction]);
 
   return (
     <div>
@@ -47,11 +58,18 @@ function Expenses() {
         <h1>Expenses</h1>
       </div>
 
-      <div style={{ alignContent: "center" }}>
+      <div className="container">
         <div className="addButton addButton--active" onClick={openModal}></div>
-
+        <div className="instructions-modal" onClick={openInstruction}>
+          <img
+            src={questionIcon}
+            alt="Question Icon"
+            className="question-icon"
+          />
+        </div>{" "}
         {showModal && <Modal closeModal={closeModal} />}
-
+        {showInstruction && <Instruction closeInstruction={closeInstruction} />}
+        {/* Close .instructions-modal div here */}
         <div>Total Budget: ${totalBudget}</div>
         <button onClick={() => handleBudgetChange(-50)}>Decrease Budget</button>
         <button onClick={() => handleBudgetChange(50)}>Increase Budget</button>
@@ -80,3 +98,6 @@ function Expenses() {
 }
 
 export default Expenses;
+
+//connect the goals that are set to the individual displayed expenses
+//question modal with information on how this page works

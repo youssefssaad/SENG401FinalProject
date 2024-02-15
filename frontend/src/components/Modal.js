@@ -51,7 +51,7 @@ function Modal({ closeModal }) {
             <input
               className="modal-input"
               type="text"
-              placeholder={`Goal ${id}`}
+              placeholder={`Category ${id}`}
               value={goal}
               onChange={(e) => handleInputChange(id, "goal", e.target.value)}
             />
