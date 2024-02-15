@@ -5,7 +5,7 @@ function Settings() {
   return (
     <div>
       <Navbar />
-      <div>Settings</div>
+      <div><h1>Settings</h1></div>
     </div>
   );
 };

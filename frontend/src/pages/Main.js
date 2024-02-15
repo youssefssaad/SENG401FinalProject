@@ -5,7 +5,7 @@ function Main() {
   return (
     <div>
       <Navbar />
-      <div>main</div>
+      <div><h1>Main</h1></div>
     </div>
   );
 };

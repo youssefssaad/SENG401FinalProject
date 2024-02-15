@@ -5,7 +5,9 @@ function Budget() {
   return (
     <div>
       <Navbar />
-      <div>budget</div>
+      <div>
+        <h1>Budget</h1>
+      </div>
     </div>
   );
 }

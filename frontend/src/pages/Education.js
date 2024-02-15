@@ -5,7 +5,7 @@ function Education() {
   return (
     <div>
       <Navbar />
-      <div>education</div>
+      <div><h1>Education</h1></div>
     </div>
   );
 };
