@@ -11,6 +11,7 @@ function Expenses() {
   const [showInstruction, setShowInstruction] = useState(false);
   const [goalFields, setGoalFields] = useState([]);
   const [delayPassed, setDelayPassed] = useState(false);
+  const [goals, setGoals] = useState({}); 
 
   const handleBudgetChange = (amount) => {
     const newTotalBudget = totalBudget + amount;
@@ -40,18 +41,32 @@ function Expenses() {
   };
 
   const handleExpenseChange = (category, amount) => {
-    setExpenses((prevExpenses) => ({
-      ...prevExpenses,
-      [category]: prevExpenses[category] + amount,
-    }));
+    setExpenses((prevExpenses) => {
+      const updatedAmount = prevExpenses[category] + amount;
+  
+      const initialGoalAmount = goals[category] || 0; // Use the initial goal amount from goals state
+  
+      const element = document.getElementById(category);
+  
+      if (element) {
+        const colorStyle = updatedAmount < initialGoalAmount ? "red" : "green";
+        element.style.color = colorStyle;
+      }
+  
+      return {
+        ...prevExpenses,
+        [category]: updatedAmount,
+      };
+    });
   };
 
   const updateExpensesFromGoals = () => {
     const newExpenses = { ...expenses };
+    const newGoals = [...goalFields];
   
     goalFields.forEach(({ goal, quantity }) => {
       const calculatedAmount = (quantity / 100) * totalBudget;
-      
+  
       // Delete expenses if the goal is removed
       if (quantity === 0) {
         delete newExpenses[goal];
@@ -66,6 +81,15 @@ function Expenses() {
     });
   
     setExpenses(newExpenses);
+  
+    // Update the goals list with calculated amounts
+    const updatedGoals = goalFields.map(({ goal, quantity }) => ({
+      goal,
+      quantity,
+      calculatedAmount: (quantity / 100) * totalBudget,
+    }));
+  
+    setGoals(updatedGoals);
   };
 
   const getGoalsFromLocalStorage = () => {
@@ -78,9 +102,28 @@ function Expenses() {
     updateExpensesFromGoals();
   };
 
+
+
+  useEffect(() => {
+    // Show instruction modal when delay has passed
+    if (delayPassed) {
+      setShowInstruction(true);
+    }
+  }, [delayPassed]);
+
+  useEffect(() => {
+    if (showModal || showInstruction) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showModal, showInstruction]);
+
+
   useEffect(() => {
     getGoalsFromLocalStorage();
-  }, []); // Load goals from localStorage on component mount
+  }, []);
+
 
   useEffect(() => {
     // After one second, set the delayPassed state to true
@@ -151,11 +194,11 @@ function Expenses() {
                 </span>
                 <button
                   className="d"
-                  onClick={() => handleExpenseChange(category, -10)}
+                  onClick={() => handleExpenseChange(category, -5)}
                 >
                   -
                 </button>
-                <button onClick={() => handleExpenseChange(category, 10)}>
+                <button onClick={() => handleExpenseChange(category, 5)}>
                 +
                 </button>
               </li>
