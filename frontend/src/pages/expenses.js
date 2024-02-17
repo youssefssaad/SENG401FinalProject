@@ -6,19 +6,21 @@ import Instruction from "../components/Instruction";
 
 function Expenses() {
   const [totalBudget, setTotalBudget] = useState(1000);
-  const [expenses, setExpenses] = useState({
-    rent: 500,
-    food: 200,
-    play: 100,
-    savings: 50,
-    investment: 150,
-  });
-
+  const [expenses, setExpenses] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showInstruction, setShowInstruction] = useState(false);
+  const [goalFields, setGoalFields] = useState([]);
+  const [delayPassed, setDelayPassed] = useState(false);
 
   const handleBudgetChange = (amount) => {
-    setTotalBudget((prevBudget) => prevBudget + amount);
+    const newTotalBudget = totalBudget + amount;
+
+    if (newTotalBudget < 0) {
+      alert("Total Budget cannot be less than 0");
+      return;
+    }
+
+    setTotalBudget(newTotalBudget);
   };
 
   const openModal = () => {
@@ -44,6 +46,59 @@ function Expenses() {
     }));
   };
 
+  const updateExpensesFromGoals = () => {
+    const newExpenses = { ...expenses };
+  
+    goalFields.forEach(({ goal, quantity }) => {
+      const calculatedAmount = (quantity / 100) * totalBudget;
+      
+      // Delete expenses if the goal is removed
+      if (quantity === 0) {
+        delete newExpenses[goal];
+      } else {
+        // Otherwise, update or add expenses
+        if (newExpenses[goal] !== undefined) {
+          newExpenses[goal] += calculatedAmount;
+        } else {
+          newExpenses[goal] = calculatedAmount;
+        }
+      }
+    });
+  
+    setExpenses(newExpenses);
+  };
+
+  const getGoalsFromLocalStorage = () => {
+    const savedGoals = JSON.parse(localStorage.getItem("goalFields")) || [];
+    setGoalFields(savedGoals);
+  };
+
+  const updateGoalsInExpenses = (updatedGoals) => {
+    setGoalFields(updatedGoals);
+    updateExpensesFromGoals();
+  };
+
+  useEffect(() => {
+    getGoalsFromLocalStorage();
+  }, []); // Load goals from localStorage on component mount
+
+  useEffect(() => {
+    // After one second, set the delayPassed state to true
+    const timeoutId = setTimeout(() => {
+      setDelayPassed(true);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId); // Clear the timeout on component unmount
+
+  }, []); // Empty dependency array to run once on mount
+
+  useEffect(() => {
+    // Show instruction modal when delay has passed
+    if (delayPassed) {
+      setShowInstruction(true);
+    }
+  }, [delayPassed]);
+
   useEffect(() => {
     if (showModal || showInstruction) {
       document.body.style.overflow = "hidden";
@@ -67,26 +122,41 @@ function Expenses() {
             className="question-icon"
           />
         </div>{" "}
-        {showModal && <Modal closeModal={closeModal} />}
+        {showModal && (
+          <Modal
+            closeModal={() => {
+              closeModal();
+              updateExpensesFromGoals();
+            }}
+            updateGoalsInExpenses={updateGoalsInExpenses}
+            expenses={expenses}
+            updateExpensesFromGoals={updateExpensesFromGoals} 
+          />
+        )}
         {showInstruction && <Instruction closeInstruction={closeInstruction} />}
-        {/* Close .instructions-modal div here */}
         <div>Total Budget: ${totalBudget}</div>
-        <button onClick={() => handleBudgetChange(-50)}>Decrease Budget</button>
-        <button onClick={() => handleBudgetChange(50)}>Increase Budget</button>
+        <button onClick={() => handleBudgetChange(-50)}>Decrease</button>
+        <button onClick={() => handleBudgetChange(50)}>Increase</button>
         <hr />
         <div>
           <ul>
             {Object.entries(expenses).map(([category, amount]) => (
-              <li key={category}>
-                {category}:
-                <span style={{ color: amount > totalBudget ? "red" : "green" }}>
-                  ${amount}
+              <li className="expenses-item-list" key={category}>
+                {category}
+                <span
+                  className="expenses-monetary-amount"
+                  style={{ color: amount > totalBudget ? "red" : "green" }}
+                >
+                  ${amount.toFixed(2)}
                 </span>
-                <button onClick={() => handleExpenseChange(category, -10)}>
-                  Decrease
+                <button
+                  className="d"
+                  onClick={() => handleExpenseChange(category, -10)}
+                >
+                  -
                 </button>
                 <button onClick={() => handleExpenseChange(category, 10)}>
-                  Increase
+                +
                 </button>
               </li>
             ))}
@@ -99,5 +169,19 @@ function Expenses() {
 
 export default Expenses;
 
-//connect the goals that are set to the individual displayed expenses
-//question modal with information on how this page works
+// features to add
+// ________________________
+//everything still needs to be properly styled so it doesn't look awful
+//the budget when loaded per goal represents the quantity of goal money they should spend. ->
+//the decrease button should deduct 5 from their money and update that value not append
+// when the budget goes down below the goal, the goal should be highlighted in red, if it is above the goal, it should be highlighted in green
+//if the total budget is less than the total of all the goals, the user should be alerted that they are spending more than they have
+//if the total budget changes and there are goals that are set and displayed, the goals should be updated to reflect the new budget
+
+//when a goal is deleted, all of its expenses are also deleted. DONE
+//goals that use the same name should overwrite the previous value written to it. DONE
+// [x] Make sure the budget is always positive DONE
+//connect the goals that are set to the individual displayed expenses DONE
+//question modal with information on how this page works DONE
+// question modal should immediately pop open when the page is loaded... fade in DONE
+

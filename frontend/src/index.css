@@ -116,15 +116,30 @@ a {
 }
 
 .addButton--active {
-  border-color: #0066b7;
+  border-color: #000;
 
   &:before,
   &:after {
-    border-color: #0066b7;
+    border-color: #000;
   }
 
   &:hover {
     background: rgba(2, 104, 190, 0.1);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -145,7 +160,7 @@ a {
   padding: 4px 0px 4px 0px;
   background-color: #c1bfb5;
   box-shadow: 0 10px 10px rgba(215, 215, 215, 0.5);
-  color: #ffffff;
+  color: #fff;
   margin-bottom: 0px;
 }
 
@@ -296,4 +311,22 @@ a[type="registration_link"] {
   text-align: center;
   color: #c9af98;
   margin-bottom: 0px;
+}
+
+.expenses-item-list{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #194851;
+  color:#ccc;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 7px;
+  width: 40%;
+  margin-top: 5%;
+}
+
+.expenses-monetary-amount{
+  background-color: inherit;
 }
