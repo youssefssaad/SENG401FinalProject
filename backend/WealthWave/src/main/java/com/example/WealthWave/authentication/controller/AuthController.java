@@ -23,7 +23,6 @@ import java.util.Date;
 @RestControllerAdvice
 public class AuthController {
     private final UserRepository userRepository;
-
     public AuthController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -75,7 +74,7 @@ public class AuthController {
         }
 
     }
-
+    
     //After user is authenticated, we need to main their authenticated state for further requests.
     //A JWT session token will help us with this
     //Keep private as it will only be used in this class
