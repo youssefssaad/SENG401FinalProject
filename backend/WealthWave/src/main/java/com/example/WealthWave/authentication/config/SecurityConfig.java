@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,37 +24,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .cors(Customizer.withDefaults())
-//                .exceptionHandling(customizer ->
-//                        customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//                )
-//                .sessionManagement(c ->
-//                        c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                )
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/", "/auth/**", "/public/**", "/api/auth/verify-token").permitAll() // Ensure your API endpoint is permitted
-//                        .anyRequest().authenticated()
-//                )
-//                .oauth2Login(AbstractHttpConfigurer::disable) // Disable OAuth2 login page redirection
-//                .formLogin(AbstractHttpConfigurer::disable); // Disable form login page redirection
-//
-//        return http.build();
-//    }
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.cors(AbstractHttpConfigurer::disable);
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .exceptionHandling(customizer ->
+                        customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                )
+                .sessionManagement(c ->
+                        c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/", "/auth/**", "/public/**", "/api/auth/verify-token", "/api/expenses/**").permitAll() // Ensure your API endpoint is permitted
+                                .anyRequest().permitAll()
+                )
+                .oauth2Login(AbstractHttpConfigurer::disable) // Disable OAuth2 login page redirection
+                .formLogin(AbstractHttpConfigurer::disable); // Disable form login page redirection
 
-        return http
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST, "/api/auth/verify-token").permitAll()
-                        .anyRequest()
-                        .authenticated()
-                ).build();
+        return http.build();
     }
 }
-
-
-
-
-
