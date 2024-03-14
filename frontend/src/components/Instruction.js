@@ -13,11 +13,11 @@ function Instruction({ closeInstruction }) {
         <p className="expenses-instruction">
           This page allows you to set your budget and expenses and track them
           accordingly. In the top right corner of the page, there is a blue plus
-          sign from which you can add your goals per category. These categories
-          are unique to you and can range from rent to food to sport to travel,
-          depending on your personal interest and where you ideally hope to
-          spend your money. It is important to note that this tool is meant to
-          be used for monthly expenses.
+          sign from which you can add your total budget and your goals per
+          category. These categories are unique to you and can range from rent
+          to food to sport to travel, depending on your personal interest and
+          where you ideally hope to spend your money. It is important to note
+          that this tool is meant to be used for monthly expenses.
         </p>
         <p className="expenses-instruction">
           When the modal opens, you can add your goals individually by typing in
@@ -26,6 +26,8 @@ function Instruction({ closeInstruction }) {
           'ADD' button. You can remove a category by clicking the '-' button on
           the right of each button. After all the categories are added, you can
           click the 'SAVE' button to save your goals and exit out of the modal.
+          If there is an error, please ensure each category name is unique and
+          the sum of the percentages is not more than 100%.
         </p>
         <p className="expenses-instruction">
           Outside, the modal, you can see the total budget and the expenses you

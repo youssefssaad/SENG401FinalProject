@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import "../index.css";
 
-function Modal({ closeModal, updateGoalsInExpenses, expenses, updateExpensesFromGoals }) {
-  const [goalFields, setGoalFields] = useState([
-    { id: 1, goal: "", quantity: 1 },
-  ]);
+function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: initialGoalFields }) {
+  const [goalFields, setGoalFields] = useState(initialGoalFields || [{ id: 1, goal: "", percentage: 0 }]);
+  const [inputTotalBudget, setInputTotalBudget] = useState(totalBudget || 0); // Initialize with 0 if totalBudget is not provided
 
   const addMoreFields = () => {
     const newField = {
       id: goalFields.length + 1,
       goal: "",
-      quantity: 1,
+      percentage: 0,
     };
     setGoalFields([...goalFields, newField]);
   };
@@ -22,49 +21,37 @@ function Modal({ closeModal, updateGoalsInExpenses, expenses, updateExpensesFrom
     setGoalFields(updatedFields);
   };
 
-  const handleQuantityChange = (id, change) => {
-    const updatedFields = goalFields.map((field) => {
-      const newQuantity = field.quantity + change;
-      return {
-        ...field,
-        quantity:
-          newQuantity >= 0 ? (newQuantity <= 100 ? newQuantity : 100) : 0,
-      };
-    });
-    setGoalFields(updatedFields);
+  const handleTotalBudgetChange = (e) => {
+    const newTotalBudget = parseFloat(e.target.value); // Parse input value as a float
+    setInputTotalBudget(newTotalBudget);
   };
 
   const removeGoal = (id) => {
-    const removedGoal = goalFields.find((field) => field.id === id);
     const updatedFields = goalFields.filter((field) => field.id !== id);
-
-    // Remove associated expenses
-    const newExpenses = { ...expenses };
-    delete newExpenses[removedGoal.goal];
-
     setGoalFields(updatedFields);
-    updateExpensesFromGoals();
   };
 
-  const saveToLocalStorage = () => {
-    const totalQuantity = goalFields.reduce(
-      (sum, field) => sum + Number(field.quantity),
-      0
-    );
-
-    if (
-      totalQuantity > 100 ||
-      totalQuantity === 0 ||
-      totalQuantity === 100 * goalFields.length
-    ) {
-      alert(
-        "Total percentage cannot exceed 100%, be 0%, or be 100% for each goal"
-      );
+  const saveGoals = () => {
+    // Check for unique category names
+    const categoryNames = goalFields.map((field) => field.goal);
+    const uniqueCategoryNames = new Set(categoryNames);
+    if (categoryNames.length !== uniqueCategoryNames.size) {
+      alert("Category names must be unique.");
       return;
     }
 
-    localStorage.setItem("goalFields", JSON.stringify(goalFields));
-    updateGoalsInExpenses(goalFields);
+    // Check for total percentage not exceeding 100
+    const totalPercentage = goalFields.reduce(
+      (sum, field) => sum + Number(field.percentage),
+      0
+    );
+    if (totalPercentage > 100) {
+      alert("Total percentage must add up to be 100% or less.");
+      return;
+    }
+
+    // Save goals and close modal
+    updateGoalsInExpenses(goalFields, inputTotalBudget); // Use inputTotalBudget here
     closeModal();
   };
 
@@ -76,7 +63,14 @@ function Modal({ closeModal, updateGoalsInExpenses, expenses, updateExpensesFrom
         </button>
         <h3 className="modal-title">Set Your Goals</h3>
 
-        {goalFields.map(({ id, goal, quantity }) => (
+        <label className="budget-input">Total Budget:</label>
+        <input
+          className="modal-input"
+          type="number"
+          value={inputTotalBudget}
+          onChange={handleTotalBudgetChange}
+        />
+        {goalFields.map(({ id, goal, percentage }) => (
           <div key={id} className="modal-input-group">
             <input
               className="modal-input"
@@ -85,20 +79,17 @@ function Modal({ closeModal, updateGoalsInExpenses, expenses, updateExpensesFrom
               value={goal}
               onChange={(e) => handleInputChange(id, "goal", e.target.value)}
             />
-            <div className="quantity-group">
-              <input
-                className="quantity-input"
-                type="number"
-                value={quantity}
-                onChange={(e) =>
-                  handleInputChange(id, "quantity", e.target.value)
-                }
-              />
-            </div>
-
+            <input
+              className="modal-input"
+              type="number"
+              placeholder="%"
+              value={percentage}
+              onChange={(e) =>
+                handleInputChange(id, "percentage", e.target.value)
+              }
+            />
             <button className="remove-goal" onClick={() => removeGoal(id)}>
-              {" "}
-              -{" "}
+              -
             </button>
           </div>
         ))}
@@ -106,7 +97,7 @@ function Modal({ closeModal, updateGoalsInExpenses, expenses, updateExpensesFrom
         <button onClick={addMoreFields}>Add</button>
 
         <div className="save-changes-cube">
-          <button className="save-changes" onClick={saveToLocalStorage}>
+          <button className="save-changes" onClick={saveGoals}>
             SAVE
           </button>
         </div>
@@ -116,14 +107,3 @@ function Modal({ closeModal, updateGoalsInExpenses, expenses, updateExpensesFrom
 }
 
 export default Modal;
-
-//features to add
-//_______________
-//the sum of all the goals' quantities should not exceed 100 (otherwise bring up an ALERT when trying to save)
-// cap the value at 0 to not go negative DONE
-//add a button to remove each goal DONE
-//the last goal should have the add more button DONE
-// max height of the modal should be set and scrollable DONE
-//close model buton should be replaced by a 'X' in the top right corner DONE
-//add a button to save the goals that is bigger and more noticeable. will PUT to the database SAVE DONE
-//no one goal should have a quantity of 0  or 100 (otherwise bring up an ALERT when trying to save) DONE

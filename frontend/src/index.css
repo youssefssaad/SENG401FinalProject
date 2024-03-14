@@ -182,7 +182,7 @@ a {
   margin-left: 25%;
   background-color: #cc2936;
   border-radius: 40px;
-  margin-bottom: 7%;
+  margin-bottom: -4%;
   justify-content: center;
   align-items: center;
   padding: 9px;
@@ -191,6 +191,8 @@ a {
 .modal-input {
   padding: 10px;
   margin-bottom: 7px;
+  margin-top: 17px;
+  margin-left: 10px;
   border: 1px solid #12343b;
   border-radius: 4px;
   background-color: #fff;
@@ -325,6 +327,19 @@ a[type="registration_link"] {
   border-radius: 7px;
   width: 40%;
   margin-top: 5%;
+}
+
+.budget-input{
+
+  padding: 5px;
+  margin-bottom: 7px;
+  border: transparent;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 13px;
+  width: 50%;
+  margin: 0 auto;
+
 }
 
 .expenses-monetary-amount{
