@@ -22,7 +22,7 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
   };
 
   const handleTotalBudgetChange = (e) => {
-    const newTotalBudget = parseFloat(e.target.value); // Parse input value as a float
+    const newTotalBudget = parseFloat(e.target.value); // Parse input value as a float. this was horrible to code.
     setInputTotalBudget(newTotalBudget);
   };
 
@@ -32,7 +32,7 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
   };
 
   const saveGoals = () => {
-    // Check for unique category names
+
     const categoryNames = goalFields.map((field) => field.goal);
     const uniqueCategoryNames = new Set(categoryNames);
     if (categoryNames.length !== uniqueCategoryNames.size) {
@@ -40,7 +40,6 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
       return;
     }
 
-    // Check for total percentage not exceeding 100
     const totalPercentage = goalFields.reduce(
       (sum, field) => sum + Number(field.percentage),
       0
@@ -50,7 +49,7 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
       return;
     }
 
-    // Save goals and close modal
+
     updateGoalsInExpenses(goalFields, inputTotalBudget); // Use inputTotalBudget here
     closeModal();
   };

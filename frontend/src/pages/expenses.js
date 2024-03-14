@@ -10,6 +10,7 @@ function Expenses() {
   const [goalFields, setGoalFields] = useState([]);
   const [expenses, setExpenses] = useState({});
   const [totalBudget, setTotalBudget] = useState(0);
+  const [tempExpenses, setTempExpenses] = useState({});
 
   const openModal = () => {
     setShowModal(true);
@@ -34,6 +35,7 @@ function Expenses() {
       newExpenses[goal] = amount;
     });
     setExpenses(newExpenses);
+    setTempExpenses(newExpenses); // Initialize tempExpenses with expenses
   };
 
   const getGoalsFromLocalStorage = () => {
@@ -43,8 +45,31 @@ function Expenses() {
 
   const updateGoalsInExpenses = (updatedGoals, updatedTotalBudget) => {
     setGoalFields(updatedGoals);
-    setTotalBudget(updatedTotalBudget); // Update totalBudget
+    setTotalBudget(updatedTotalBudget); 
     updateExpensesFromGoals();
+  };
+
+  const handleIncrease = (category) => {
+    const newTempExpenses = { ...tempExpenses };
+    newTempExpenses[category] += 1;
+    setTempExpenses(newTempExpenses);
+
+    // Check if total temporary expenses exceed total budget, and if so, alert the user
+    const tempTotal = Object.values(newTempExpenses).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+    if (tempTotal > totalBudget) {
+      alert("Your spending has surpassed the budgeted amount for this month.");
+    }
+  };
+
+  const handleDecrease = (category) => {
+    const newTempExpenses = { ...tempExpenses };
+    if (newTempExpenses[category] > 0) {
+      newTempExpenses[category] -= 1;
+      setTempExpenses(newTempExpenses);
+    }
   };
 
   useEffect(() => {
@@ -75,7 +100,7 @@ function Expenses() {
             closeModal={closeModal}
             updateGoalsInExpenses={updateGoalsInExpenses}
             totalBudget={totalBudget}
-            goalFields={goalFields} // Pass the goalFields data
+            goalFields={goalFields} 
           />
         )}
         {showInstruction && <Instruction closeInstruction={closeInstruction} />}
@@ -85,12 +110,16 @@ function Expenses() {
             {Object.entries(expenses).map(([category, amount]) => (
               <li className="expenses-item-list" key={category}>
                 {category}
+                <button onClick={() => handleIncrease(category)}>+</button>
                 <span
                   className="expenses-monetary-amount"
-                  style={{ color: amount > totalBudget ? "red" : "green" }}
+                  style={{
+                    color: tempExpenses[category] > amount ? "red" : "green",
+                  }}
                 >
-                  ${amount.toFixed(2)}
+                  ${tempExpenses[category].toFixed(2)}
                 </span>
+                <button onClick={() => handleDecrease(category)}>-</button>
               </li>
             ))}
           </ul>
@@ -101,16 +130,3 @@ function Expenses() {
 }
 
 export default Expenses;
-
-
-// features to add
-// ________________________
-//everything still needs to be properly styled so it doesn't look awful
-//the budget when loaded per goal represents the quantity of goal money they should spend. ->
-//the decrease button should deduct 5 from their money and update that value not append
-// when the budget goes down below the goal, the goal should be highlighted in red, if it is above the goal, it should be highlighted in green
-//if the total budget is less than the total of all the goals, the user should be alerted that they are spending more than they have
-//if the total budget changes and there are goals that are set and displayed, the goals should be updated to reflect the new budget
-
-//when a goal is deleted, all of its expenses are also deleted. DONE
-// [x] Make sure the budget is always positive DONE
