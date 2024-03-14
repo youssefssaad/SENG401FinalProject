@@ -32,13 +32,23 @@ function Instruction({ closeInstruction }) {
         <p className="expenses-instruction">
           Outside, the modal, you can see the total budget and the expenses you
           have set based on the respective categories based on your percentage
-          goals and total budget. Here, you can add your total monthly income,
-          and below it, add how much you spent so far in the month for that
-          category. If the spent money is coloured green, you have still met
-          your financial goal. If the spent money is coloured red, you have
-          spent more than your goal in that category. If you hover on top of the
-          red categories, they will display the amount you have overspent.
+          goals and total budget. For each category, the app has calculated the
+          idea goal amount as per your total budget. Within this category, you
+          can use the + and - buttons to increase or decrease the amount to how
+          much you have spent in this category. If the spent money is coloured
+          green, you have still met your financial goal as determined
+          previously. If the spent money is coloured red, you have spent more
+          than your goal in that category. If you would like to change your
+          goals or set categories/percentages, you can click the + sign again to
+          open the modal and make changes and save, which will update your page.
+          You can also click the question mark in the top right corner to see
+          these instructions again. If you spend more money in total than your
+          specified budget, you will receive an alert to notify you that you
+          have exceeded your budget. This serves as a reminder to adjust your
+          expenses accordingly.
         </p>
+
+        <p className="expenses-instruction">Happy budgeting!</p>
       </div>
     </div>
   );
