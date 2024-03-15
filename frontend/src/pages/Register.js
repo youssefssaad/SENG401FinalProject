@@ -13,15 +13,6 @@ const Register = () => {
   let eyeicon = document.getElementById('eyeicon');
   let password = document.getElementById('password');
 
-  eyeicon.onclick = function() {
-    if (password.type === 'password') {
-      password.type = 'text';
-      eyeicon.src = openEye;
-    } else {
-      password.type = 'password';
-      eyeicon.src = closeEye;
-    }
-  }
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -130,6 +121,18 @@ const Register = () => {
       </form>
     </>
   );
+
+  eyeicon.onclick = function() {
+    if (password.type === 'password') {
+      password.type = 'text';
+      eyeicon.src = openEye;
+    } else {
+      password.type = 'password';
+      eyeicon.src = closeEye;
+    }
+  }
+
+  
 };
 
 export default Register;
