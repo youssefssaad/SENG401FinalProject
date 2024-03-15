@@ -3,6 +3,7 @@ import "../index.css";
 import Modal from "../components/Modal";
 import questionIcon from "../assets/question_icon.png";
 import Instruction from "../components/Instruction";
+import Navbar from "../components/Navbar";
 
 function Expenses() {
   const [showModal, setShowModal] = useState(false);
@@ -82,6 +83,7 @@ function Expenses() {
 
   return (
     <div>
+    <Navbar />
       <div>
         <h1>Expenses</h1>
       </div>
