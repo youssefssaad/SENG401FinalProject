@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../index.css";
 
-function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: initialGoalFields }) {
+function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: initialGoalFields, setNewExpenseAmount, setNewExpenseCategory, handleSaveExpense }) {
   const [goalFields, setGoalFields] = useState(initialGoalFields || [{ id: 1, goal: "", percentage: 0 }]);
   const [inputTotalBudget, setInputTotalBudget] = useState(totalBudget || 0); // Initialize with 0 if totalBudget is not provided
 
@@ -31,28 +31,49 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
     setGoalFields(updatedFields);
   };
 
-  const saveGoals = () => {
-
+  //modified
+  const saveGoals = async () => {
     const categoryNames = goalFields.map((field) => field.goal);
     const uniqueCategoryNames = new Set(categoryNames);
+    
     if (categoryNames.length !== uniqueCategoryNames.size) {
       alert("Category names must be unique.");
       return;
     }
-
+  
     const totalPercentage = goalFields.reduce(
       (sum, field) => sum + Number(field.percentage),
       0
     );
+    
     if (totalPercentage > 100) {
       alert("Total percentage must add up to be 100% or less.");
       return;
     }
-
-
-    updateGoalsInExpenses(goalFields, inputTotalBudget); // Use inputTotalBudget here
-    closeModal();
-  };
+  
+    // Check if any category field is empty
+    if (goalFields.some((field) => field.goal === "")) {
+      alert("Please fill in all category fields.");
+      return;
+    }
+  
+    try {
+      for (const { goal, percentage } of goalFields) {
+        const expenseData = {
+          amount: (totalBudget * parseFloat(percentage)) / 100,
+          category: goal,
+        };
+  
+        await handleSaveExpense(expenseData); // Call handleSaveExpense for each category
+      }
+  
+      updateGoalsInExpenses(goalFields, inputTotalBudget);
+      closeModal();
+    } catch (error) {
+      console.error("Error saving goals:", error);
+      alert("Failed to save goals. Please try again later.");
+    }
+  };  
 
   return (
     <div className="modal">

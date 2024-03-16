@@ -12,6 +12,42 @@ function Expenses() {
   const [expenses, setExpenses] = useState({});
   const [totalBudget, setTotalBudget] = useState(0);
   const [tempExpenses, setTempExpenses] = useState({});
+  const [newExpenseAmount, setNewExpenseAmount] = useState("");
+  const [newExpenseCategory, setNewExpenseCategory] = useState("");
+
+  //added this..
+  const ensureCategoryExists = async (categoryName) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/categories/${categoryName}`
+      );
+      const data = await response.json();
+
+      if (response.ok) {
+        return data.id;
+      }
+
+      if (response.status === 404) {
+        const newCategoryResponse = await fetch(
+          "http://localhost:8080/api/categories",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name: categoryName }),
+          }
+        );
+        const newCategoryData = await newCategoryResponse.json();
+
+        if (newCategoryResponse.ok) {
+          return newCategoryData.id;
+        }
+      }
+    } catch (error) {
+      console.error("Error ensuring category exists:", error);
+    }
+  };
 
   const openModal = () => {
     setShowModal(true);
@@ -73,6 +109,31 @@ function Expenses() {
     }
   };
 
+  const handleSaveExpense = async (expenseData) => {
+    try {
+      const categoryId = await ensureCategoryExists(expenseData.category);
+      const response = await fetch(
+        `http://localhost:8080/api/expenses/add/${categoryId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(expenseData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add expense");
+      }
+
+      setNewExpenseAmount("");
+      setNewExpenseCategory("");
+    } catch (error) {
+      console.error("Error saving expense:", error);
+    }
+  };
+
   useEffect(() => {
     getGoalsFromLocalStorage();
   }, []);
@@ -103,6 +164,10 @@ function Expenses() {
             updateGoalsInExpenses={updateGoalsInExpenses}
             totalBudget={totalBudget}
             goalFields={goalFields} 
+            ensureCategoryExists={ensureCategoryExists} // Pass ensureCategoryExists to Modal
+            setNewExpenseAmount={setNewExpenseAmount}
+            setNewExpenseCategory={setNewExpenseCategory}
+            handleSaveExpense={handleSaveExpense}
           />
         )}
         {showInstruction && <Instruction closeInstruction={closeInstruction} />}
