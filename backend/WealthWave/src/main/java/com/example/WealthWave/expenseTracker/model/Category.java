@@ -20,5 +20,12 @@ public class Category {
     @Setter
     private String description;
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 
 }

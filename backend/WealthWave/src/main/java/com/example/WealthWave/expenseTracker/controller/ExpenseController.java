@@ -23,6 +23,7 @@ public class ExpenseController {
     @PostMapping("/add/{categoryId}")
     public ResponseEntity<Expense> addExpense(@RequestBody Expense expense, @PathVariable String categoryId) {
         try {
+            System.out.println("What the fuck is the expense here?: " + expense);
             Expense savedExpense = expenseService.addExpense(expense, categoryId);
             return ResponseEntity.ok(savedExpense);
         } catch (CategoryNotFoundException e) {

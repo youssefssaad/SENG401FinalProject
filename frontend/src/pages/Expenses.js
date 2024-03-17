@@ -12,41 +12,32 @@ function Expenses() {
   const [expenses, setExpenses] = useState({});
   const [totalBudget, setTotalBudget] = useState(0);
   const [tempExpenses, setTempExpenses] = useState({});
-  const [newExpenseAmount, setNewExpenseAmount] = useState("");
-  const [newExpenseCategory, setNewExpenseCategory] = useState("");
+  const [newExpenseAmount, setNewExpenseAmount] = useState('');
+  const [newExpenseCategory, setNewExpenseCategory] = useState('');
 
-  //added this..
   const ensureCategoryExists = async (categoryName) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/categories/${categoryName}`
-      );
-      const data = await response.json();
+    const categoriesResponse = await fetch('http://localhost:8080/api/categories');
+    const categories = await categoriesResponse.json();
 
-      if (response.ok) {
-        return data.id;
+    let existingCategory = categories.find(category => category.name === categoryName);
+
+    if (!existingCategory) {
+      const newCategoryResponse = await fetch('http://localhost:8080/api/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: categoryName }),
+      });
+
+      if (!newCategoryResponse.ok) {
+        throw new Error('Failed to create new category');
       }
 
-      if (response.status === 404) {
-        const newCategoryResponse = await fetch(
-          "http://localhost:8080/api/categories",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name: categoryName }),
-          }
-        );
-        const newCategoryData = await newCategoryResponse.json();
-
-        if (newCategoryResponse.ok) {
-          return newCategoryData.id;
-        }
-      }
-    } catch (error) {
-      console.error("Error ensuring category exists:", error);
+      existingCategory = await newCategoryResponse.json();
     }
+
+    return existingCategory.id;
   };
 
   const openModal = () => {
@@ -111,27 +102,47 @@ function Expenses() {
 
   const handleSaveExpense = async (expenseData) => {
     try {
-      const categoryId = await ensureCategoryExists(expenseData.category);
-      const response = await fetch(
-        `http://localhost:8080/api/expenses/add/${categoryId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(expenseData),
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to add expense");
+      const categoryId = await ensureCategoryExists(expenseData.category);
+      const amount = parseFloat(expenseData.amount);
+
+      if (isNaN(amount)) {
+        console.error("Invalid expense amount:", expenseData.amount);
+        return;
       }
 
-      setNewExpenseAmount("");
-      setNewExpenseCategory("");
+      const finalExpenseData = {
+        amount: amount,
+        category: { id: categoryId },
+      };
+
+      console.log("Sending expense data:", finalExpenseData);
+
+      // API call to save the expense
+      const response = await fetch(`http://localhost:8080/api/expenses/add/${categoryId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(finalExpenseData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add expense');
+      }
+
     } catch (error) {
-      console.error("Error saving expense:", error);
+      console.error('Error saving expense:', error);
     }
+  };
+
+  const checkCategoryUsage = async (categoryId) => {
+    // Fetch all expenses to check if any other expense is using the category
+    const expensesResponse = await fetch('http://localhost:8080/api/expenses');
+    const expenses = await expensesResponse.json();
+
+    // Check if the category is used by any other expenses
+    return expenses.some(expense => expense.category && expense.category.$id === categoryId);
   };
 
   useEffect(() => {
@@ -159,16 +170,14 @@ function Expenses() {
           />
         </div>{" "}
         {showModal && (
-          <Modal
-            closeModal={closeModal}
-            updateGoalsInExpenses={updateGoalsInExpenses}
-            totalBudget={totalBudget}
-            goalFields={goalFields} 
-            ensureCategoryExists={ensureCategoryExists} // Pass ensureCategoryExists to Modal
-            setNewExpenseAmount={setNewExpenseAmount}
-            setNewExpenseCategory={setNewExpenseCategory}
-            handleSaveExpense={handleSaveExpense}
-          />
+            <Modal
+                closeModal={closeModal}
+                updateGoalsInExpenses={updateGoalsInExpenses}
+                totalBudget={totalBudget}
+                goalFields={goalFields}
+                ensureCategoryExists={ensureCategoryExists}
+                handleSaveExpense={handleSaveExpense}
+            />
         )}
         {showInstruction && <Instruction closeInstruction={closeInstruction} />}
         <hr />
