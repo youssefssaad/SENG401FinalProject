@@ -2,6 +2,7 @@ package com.example.WealthWave.expenseTracker.model;
 
 import jakarta.validation.constraints.Past;
 
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -21,7 +22,7 @@ public class Expense {
     @DBRef
     private Category category;
 
-    @Past(message = "The date cannot be in the future")
+    @PastOrPresent(message = "The date cannot be in the future")
     private Date date;
 
     public Expense() {
