@@ -42,4 +42,37 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+//        http.csrf(AbstractHttpConfigurer::disable);
+//        http.cors(AbstractHttpConfigurer::disable);
+//
+//        return http
+//                .authorizeHttpRequests(request -> request
+//                        .requestMatchers(HttpMethod.POST, "/api/auth/verify-token","/api/expenses").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/api/expenses/category/").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/api/expenses").permitAll()
+//                        .anyRequest()
+//                        .authenticated()
+//                ).build();
+//    }
+
+//        http
+//                .csrf(csrf -> csrf.disable()) // Disable CSRF protection
+//                .cors(cors -> cors.disable()) // Disable CORS if it's managed globally or not needed
+//                .authorizeHttpRequests(authz -> authz
+//                .requestMatchers("/api/expenses/**").permitAll()  // Adjust as necessary
+//                .anyRequest().authenticated()
+//        )
+//                // Configure session to be stateless; ideal for REST APIs
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//
+//        // Include additional configurations like OAuth2Login if you're using OAuth2
+//        return http.build();
+//    }
 }
+
+
+
+
+
+

@@ -30,7 +30,7 @@ const Login = () => {
               alert("Invalid Login Credentials!");
           });
     } else {
-      alert("Lock in bro");
+      alert("Please fill in user credentials.");
     }
   };
 
