@@ -1,4 +1,5 @@
 import React , {useState} from 'react';
+import axios from "axios";
 // import GoogleSignIn from './GoogleSignIn';
 
 const Login = () => {
@@ -17,27 +18,19 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.username !== "" && input.password !== "") {  
-      const formData = {
+    if (input.username !== "" && input.password !== "") {
+      axios.post('http://localhost:8080/users/login', {
         username: input.username,
-        password: input.password,
-      };
-      fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+        password: input.password
       })
-      .then(response => response.json())
-      .then(data => {
-        alert(`What's good ${input.username}?!`);
-      })
-      .catch(() => {
-        alert("There was an error processing your registration.");
-      });
+          .then((response) => {
+              alert(`What's good ${input.username}?!`);
+              window.location.href = "http://localhost:3000/";
+          }, (error) => {
+              alert("Invalid Login Credentials!");
+          });
     } else {
-      alert("Lock in bro");
+      alert("Please fill in user credentials.");
     }
   };
 

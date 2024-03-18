@@ -2,6 +2,7 @@ package com.example.WealthWave;
 
 import com.example.WealthWave.authentication.config.SecurityConfig;
 import com.example.WealthWave.authentication.controller.AuthController;
+import com.example.WealthWave.authentication.controller.UserController;
 import com.example.WealthWave.authentication.dtos.TokenDto;
 import com.example.WealthWave.authentication.dtos.User;
 import com.example.WealthWave.authentication.dtos.UserSessionDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @SpringBootApplication
 @EnableMongoRepositories
 @ComponentScan(basePackageClasses = AuthController.class)
+@ComponentScan(basePackageClasses = UserController.class)
 @ComponentScan(basePackageClasses = SecurityConfig.class)
 @ComponentScan(basePackageClasses = TokenDto.class)
 @ComponentScan(basePackageClasses = UserRepository.class)
