@@ -335,3 +335,49 @@ a {
         transform: translateY(0);
     }
 }
+  .education-intro {
+    color: white;
+  }
+  
+  .education-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .education-item {
+    flex: 1 0 30%;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .education-image {
+    min-width: 150px;
+    height: auto;
+    transition: opacity 0.3s ease;
+  }
+  
+  .education-intro {
+    color: white;
+  }
+  
+  .education-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .education-item {
+    flex: 1 0 30%;
+    text-align: center;
+    margin: 10px;
+  }
+  
+  .education-image {
+    width: 100px;
+    height: auto;
+  }
+
+  .education-image:hover {
+    opacity: 0.7;
+  }
