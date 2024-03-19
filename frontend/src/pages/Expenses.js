@@ -14,6 +14,7 @@ function Expenses() {
   const [tempExpenses, setTempExpenses] = useState({});
   const [newExpenseAmount, setNewExpenseAmount] = useState("");
   const [newExpenseCategory, setNewExpenseCategory] = useState("");
+  const [expenseIDs, setExpenseIDs] = useState([]);
 
   //added this..
   const ensureCategoryExists = async (categoryName) => {
@@ -131,6 +132,77 @@ function Expenses() {
       setNewExpenseCategory("");
     } catch (error) {
       console.error("Error saving expense:", error);
+    }
+  };
+
+  const fetchExpenseIDs = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/expenses");
+      if (response.ok) {
+        const data = await response.json();
+        const ids = data.map((expense) => expense.id);
+        setExpenseIDs(ids);
+      } else {
+        throw new Error("Failed to fetch expense IDs");
+      }
+    } catch (error) {
+      console.error("Error fetching expense IDs:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchExpenseIDs();
+  }, []);
+
+  const updateExpense = async (category, newAmount) => {
+    try {
+      const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
+      const response = await fetch(
+        `http://localhost:8080/api/expenses/update/${expenseId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount: newAmount }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update expense");
+      }
+
+      //frontend update
+      const updatedExpenses = { ...expenses };
+      updatedExpenses[category] = newAmount;
+      setExpenses(updatedExpenses);
+      setTempExpenses(updatedExpenses);
+    } catch (error) {
+      console.error("Error updating expense:", error);
+    }
+  };
+
+  const removeExpense = async (category) => {
+    try {
+      const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
+      const response = await fetch(
+        `http://localhost:8080/api/expenses/remove/${expenseId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to remove expense");
+      }
+
+      //frontend update
+      const updatedExpenses = { ...expenses };
+      delete updatedExpenses[category];
+      setExpenses(updatedExpenses);
+      setTempExpenses(updatedExpenses);
+    } catch (error) {
+      console.error("Error removing expense:", error);
     }
   };
 

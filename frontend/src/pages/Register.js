@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import closeEye from "../assets/eye-close.png";
-import openEye from "../assets/eye-open.png"
 import axios from "axios";
 
 const Register = () => {
@@ -12,18 +11,7 @@ const Register = () => {
   });
 
 
-  let password = document.getElementById('password');
-
-  // let eyeicon = document.getElementById('eyeicon');
-  // eyeicon.onclick = async function() {
-  //   if (password.type === 'password') {
-  //     password.type = 'text';
-  //     eyeicon.src = openEye;
-  //   } else {
-  //     password.type = 'password';
-  //     eyeicon.src = closeEye;
-  //   }
-  // }
+  // let password = document.getElementById('password');
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,9 +23,9 @@ const Register = () => {
     }));
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  // const togglePasswordVisibility = () => {
+  //   setShowPassword(!showPassword);
+  // };
 
   const passwordMatch = () => input.passwordCheck === input.password;
 
