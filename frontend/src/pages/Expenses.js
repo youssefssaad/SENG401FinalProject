@@ -112,28 +112,49 @@ function Expenses() {
 
   const handleSaveExpense = async (expenseData) => {
     try {
-      const categoryId = await ensureCategoryExists(expenseData.category);
-      const response = await fetch(
-        `http://localhost:8080/api/expenses/add/${categoryId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(expenseData),
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error("Failed to add expense");
+      const categoryId = await ensureCategoryExists(expenseData.category);
+      const amount = parseFloat(expenseData.amount);
+
+      if (isNaN(amount)) {
+        console.error("Invalid expense amount:", expenseData.amount);
+        return;
       }
 
-      setNewExpenseAmount("");
-      setNewExpenseCategory("");
+      const finalExpenseData = {
+        amount: amount,
+        category: { id: categoryId },
+      };
+
+      console.log("Sending expense data:", finalExpenseData);
+
+      // API call to save the expense
+      const response = await fetch(`http://localhost:8080/api/expenses/add/${categoryId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(finalExpenseData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add expense');
+      }
+
     } catch (error) {
-      console.error("Error saving expense:", error);
+      console.error('Error saving expense:', error);
     }
   };
+
+  const checkCategoryUsage = async (categoryId) => {
+    // Fetch all expenses to check if any other expense is using the category
+    const expensesResponse = await fetch('http://localhost:8080/api/expenses');
+    const expenses = await expensesResponse.json();
+
+    // Check if the category is used by any other expenses
+    return expenses.some(expense => expense.category && expense.category.$id === categoryId);
+  };
+
 
   const fetchExpenseIDs = async () => {
     try {
