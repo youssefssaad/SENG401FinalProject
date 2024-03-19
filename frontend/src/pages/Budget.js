@@ -51,6 +51,7 @@ function BudgetPage() {
 
     return (
         <div className="budget-page">
+            <Navbar />
             <h1>Budget Planner</h1>
             <form onSubmit={handleSubmit}>
                 <div>

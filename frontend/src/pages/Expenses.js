@@ -82,7 +82,7 @@ function Expenses() {
 
   const updateGoalsInExpenses = (updatedGoals, updatedTotalBudget) => {
     setGoalFields(updatedGoals);
-    setTotalBudget(updatedTotalBudget); 
+    setTotalBudget(updatedTotalBudget);
     updateExpensesFromGoals();
   };
 
@@ -144,7 +144,7 @@ function Expenses() {
 
   return (
     <div>
-    <Navbar />
+      <Navbar />
       <div>
         <h1>Expenses</h1>
       </div>
@@ -163,7 +163,7 @@ function Expenses() {
             closeModal={closeModal}
             updateGoalsInExpenses={updateGoalsInExpenses}
             totalBudget={totalBudget}
-            goalFields={goalFields} 
+            goalFields={goalFields}
             ensureCategoryExists={ensureCategoryExists} // Pass ensureCategoryExists to Modal
             setNewExpenseAmount={setNewExpenseAmount}
             setNewExpenseCategory={setNewExpenseCategory}
