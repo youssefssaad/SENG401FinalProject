@@ -87,11 +87,11 @@ function Expenses() {
     updateExpensesFromGoals();
   };
 
-  const handleIncrease = (category) => {
+  const handleIncrease = async (category) => {
     const newTempExpenses = { ...tempExpenses };
     newTempExpenses[category] += 1;
     setTempExpenses(newTempExpenses);
-
+  
     // Check if total temporary expenses exceed total budget, and if so, alert the user
     const tempTotal = Object.values(newTempExpenses).reduce(
       (acc, curr) => acc + curr,
@@ -100,15 +100,22 @@ function Expenses() {
     if (tempTotal > totalBudget) {
       alert("Your spending has surpassed the budgeted amount for this month.");
     }
+  
+    // Update expense in the backend
+    await updateExpense(category, newTempExpenses[category]);
   };
-
-  const handleDecrease = (category) => {
+  
+  const handleDecrease = async (category) => {
     const newTempExpenses = { ...tempExpenses };
     if (newTempExpenses[category] > 0) {
       newTempExpenses[category] -= 1;
       setTempExpenses(newTempExpenses);
     }
+  
+    // Update expense in the backend
+    await updateExpense(category, newTempExpenses[category]);
   };
+  
 
   const handleSaveExpense = async (expenseData) => {
     try {
@@ -188,12 +195,12 @@ function Expenses() {
           body: JSON.stringify({ amount: newAmount }),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to update expense");
       }
-
-      //frontend update
+  
+      // Update frontend state after successful backend update
       const updatedExpenses = { ...expenses };
       updatedExpenses[category] = newAmount;
       setExpenses(updatedExpenses);
@@ -202,6 +209,7 @@ function Expenses() {
       console.error("Error updating expense:", error);
     }
   };
+  
 
   const removeExpense = async (category) => {
     try {
