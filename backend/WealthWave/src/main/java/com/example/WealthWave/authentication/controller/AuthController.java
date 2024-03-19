@@ -23,7 +23,6 @@ import java.util.Date;
 @RestControllerAdvice
 public class AuthController {
     private final UserRepository userRepository;
-
     public AuthController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

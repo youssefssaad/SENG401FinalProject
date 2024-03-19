@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import closeEye from "../assets/eye-close.png";
 import openEye from "../assets/eye-open.png"
+import axios from "axios";
 
 const Register = () => {
   const [input, setInput] = useState({
@@ -10,18 +11,19 @@ const Register = () => {
     passwordCheck: "",
   });
 
-  let eyeicon = document.getElementById('eyeicon');
+
   let password = document.getElementById('password');
 
-  eyeicon.onclick = function() {
-    if (password.type === 'password') {
-      password.type = 'text';
-      eyeicon.src = openEye;
-    } else {
-      password.type = 'password';
-      eyeicon.src = closeEye;
-    }
-  }
+  // let eyeicon = document.getElementById('eyeicon');
+  // eyeicon.onclick = async function() {
+  //   if (password.type === 'password') {
+  //     password.type = 'text';
+  //     eyeicon.src = openEye;
+  //   } else {
+  //     password.type = 'password';
+  //     eyeicon.src = closeEye;
+  //   }
+  // }
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -47,30 +49,22 @@ const Register = () => {
       input.email !== "" &&
       input.passwordCheck !== "" &&
       passwordMatch()
-    ) {
-      try {
-        const formData = {
-          email: input.email,
-          username: input.username,
-          password: input.password,
-        };
-        const response = await fetch("http://localhost:3000/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (!response.ok) {
-          throw new Error("Server responded with an error!");
-        }
-        const data = await response.json();
-        alert(`What's good ${input.username}?!`);
-      } catch (error) {
-        alert("There was an error processing your registration.");
-      }
-    } else {
+    )
+    {
+      axios.post('http://localhost:8080/users/create', {
+        email: input.email,
+        username: input.username,
+        password: input.password,
+      })
+          .then((response) => {
+            alert(`What's good ${input.username}?!`);
+            window.location.href = "http://localhost:3000/";
+          }, (error) => {
+            alert(error.response.data);
+          });
+    }
+    else
+    {
       alert("Lock in bro");
     }
   };
