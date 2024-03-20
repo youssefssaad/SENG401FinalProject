@@ -31,6 +31,25 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
     setGoalFields(updatedFields);
   };
 
+  //
+  // const saveGoals = async () => {
+  //   for (const { goal, percentage } of goalFields) {
+  //     if (goal.trim() === "" || percentage <= 0) {
+  //       alert("Please ensure all goals have a name and a positive percentage.");
+  //       return;
+  //     }
+
+  //     const categoryId = await ensureCategoryExists(goal); // Resolve category name to ID
+  //     const amount = (inputTotalBudget * parseFloat(percentage)) / 100;
+
+  //     await handleSaveExpense({ categoryId, amount });
+  //   }
+
+  //   updateGoalsInExpenses(goalFields, inputTotalBudget);
+  //   closeModal();
+  // };
+
+
   //modified
   const saveGoals = async () => {
     const categoryNames = goalFields.map((field) => field.goal);

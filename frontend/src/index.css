@@ -1,12 +1,12 @@
 * {
-    background-color: #12343b;
+    background-color: #effcff;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 div h1 {
     margin-top: 0;
     text-align: center; /* Combined with previous rule */
-    background-color: #194851; /* Combined with previous rule */
+    background-color: #effcff; /* Combined with previous rule */
     color: #12343b; /* Combined with previous rule */
     margin-bottom: 0;
     padding: 10px;
@@ -45,7 +45,7 @@ ul > li > button {
 }
 
 div > button {
-    background-color: #c9af98;
+    background-color: transparent;
     color: white;
 }
 
@@ -296,6 +296,8 @@ nav button:hover {
     padding: 4px;
     margin-bottom: 0;
     border-radius: 1px;
+
+    
 }
 
 .close-button {

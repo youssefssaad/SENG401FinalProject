@@ -18,36 +18,28 @@ function Expenses() {
 
   //added this..
   const ensureCategoryExists = async (categoryName) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/categories/${categoryName}`
-      );
-      const data = await response.json();
+    const categoriesResponse = await fetch('http://localhost:8080/api/categories');
+    const categories = await categoriesResponse.json();
 
-      if (response.ok) {
-        return data.id;
+    let existingCategory = categories.find(category => category.name === categoryName);
+
+    if (!existingCategory) {
+      const newCategoryResponse = await fetch('http://localhost:8080/api/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: categoryName }),
+      });
+
+      if (!newCategoryResponse.ok) {
+        throw new Error('Failed to create new category');
       }
 
-      if (response.status === 404) {
-        const newCategoryResponse = await fetch(
-          "http://localhost:8080/api/categories",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name: categoryName }),
-          }
-        );
-        const newCategoryData = await newCategoryResponse.json();
-
-        if (newCategoryResponse.ok) {
-          return newCategoryData.id;
-        }
-      }
-    } catch (error) {
-      console.error("Error ensuring category exists:", error);
+      existingCategory = await newCategoryResponse.json();
     }
+
+    return existingCategory.id;
   };
 
   const openModal = () => {
