@@ -79,7 +79,7 @@ function Expenses() {
     updateExpensesFromGoals();
   };
 
-  const handleIncrease = async (category) => {
+  const handleIncrease = async (id, category, expenseObject) => {
     const newTempExpenses = { ...tempExpenses };
     newTempExpenses[category] += 1;
     setTempExpenses(newTempExpenses);
@@ -93,19 +93,19 @@ function Expenses() {
       alert("Your spending has surpassed the budgeted amount for this month.");
     }
   
-    // Update expense in the backend
-    await updateExpense(category, newTempExpenses[category]);
+    // change name of backend method here @NourAjami
+    await updateExpense(id, { ...expenseObject, amount: newTempExpenses[category] });
   };
   
-  const handleDecrease = async (category) => {
+  const handleDecrease = async (id, category, expenseObject) => {
     const newTempExpenses = { ...tempExpenses };
     if (newTempExpenses[category] > 0) {
       newTempExpenses[category] -= 1;
       setTempExpenses(newTempExpenses);
     }
   
-    // Update expense in the backend
-    await updateExpense(category, newTempExpenses[category]);
+    // change name of backend method here @NourAjami
+    await updateExpense(id, { ...expenseObject, amount: newTempExpenses[category] });
   };
   
 
@@ -146,12 +146,12 @@ function Expenses() {
   };
 
   const checkCategoryUsage = async (categoryId) => {
-    // Fetch all expenses to check if any other expense is using the category
-    const expensesResponse = await fetch('http://localhost:8080/api/expenses');
+    const expensesResponse = await fetch("http://localhost:8080/api/expenses");
     const expenses = await expensesResponse.json();
 
-    // Check if the category is used by any other expenses
-    return expenses.some(expense => expense.category && expense.category.$id === categoryId);
+    return expenses.some(
+      (expense) => expense.category && expense.category.$id === categoryId
+    );
   };
 
 

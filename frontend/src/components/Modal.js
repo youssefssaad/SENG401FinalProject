@@ -21,6 +21,55 @@ function Modal({ closeModal, updateGoalsInExpenses, totalBudget, goalFields: ini
     setGoalFields(updatedFields);
   };
 
+
+  const deleteExpenseAndCategory = async (category) => {
+    try {
+      const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
+      const response = await fetch(
+        `http://localhost:8080/api/expenses/remove/${expenseId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to remove expense");
+      }
+
+      // Update frontend
+      const updatedExpenses = { ...expenses };
+      delete updatedExpenses[category];
+      setExpenses(updatedExpenses);
+      setTempExpenses(updatedExpenses);
+
+      // Check if category needs to be deleted
+      const categoryUsed = await checkCategoryUsage(expenseId);
+      if (!categoryUsed) {
+        deleteCategory(expenseId);
+      }
+    } catch (error) {
+      console.error("Error removing expense:", error);
+    }
+  };
+
+  const deleteCategory = async (categoryId) => {
+    //API call
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/categories/remove/${categoryId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to remove category");
+      }
+    } catch (error) {
+      console.error("Error removing category:", error);
+    }
+  };
+
   const handleTotalBudgetChange = (e) => {
     const newTotalBudget = parseFloat(e.target.value); // Parse input value as a float. this was horrible to code.
     setInputTotalBudget(newTotalBudget);
