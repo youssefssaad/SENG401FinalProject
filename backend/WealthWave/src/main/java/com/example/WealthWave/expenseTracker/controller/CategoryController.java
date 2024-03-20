@@ -5,6 +5,7 @@ import com.example.WealthWave.expenseTracker.model.Category;
 import com.example.WealthWave.expenseTracker.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,10 +23,13 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Category addCategory(@RequestBody Category category) {
-        return categoryService.addCategory(category);
+    public ResponseEntity<?> addCategory(@RequestBody Category category) {
+        if (category.getName() == null || category.getName().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Category name is required");
+        }
+        return ResponseEntity.ok(categoryService.addCategory(category));
     }
-
+    
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
@@ -36,12 +40,12 @@ public class CategoryController {
         return categoryService.getCategoryById(id).orElseThrow(() -> new CategoryNotFoundException("The category with id " + id + "was not found "));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Category updateCategory(@PathVariable String id, @RequestBody Category updatedCategory) {
         return categoryService.updateCategory(id, updatedCategory);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/remove/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable String id) {
         categoryService.deleteCategory(id);
