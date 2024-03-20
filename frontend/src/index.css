@@ -12,17 +12,127 @@ div h1 {
     padding: 10px;
 }
 
-form {
+ /************ Login Page / Registration Page Styling ************/
+
+.accessContainer{
     display: flex;
     flex-direction: column;
-    width: 200px;
-    margin: 0 auto;
-    margin-top: 15%;
-    padding: 20px;
-    border: 2px dashed #c9af98;
-    border-radius: 2px;
-    background-color: rgba(201, 175, 152, 0.7); /* Combined with previous rule */
+    margin: 100px auto auto;
+    background: white;
+    width: 550px;
+    padding-bottom: 30px;
+    border-radius: 25px;
 }
+
+.accessHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+    background: white;
+}
+
+.accessHeaderText{
+    background: white;
+    color: #57c1d7;
+    font-size: 50px;
+    font-weight: 500;
+}
+
+.accessInputsContainer{
+    background: white;
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.accessInputs{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: #effcff;
+    border-radius: 6px;
+}
+
+.accessInputImages{
+    margin: 0 30px;
+}
+
+.accessInputFields{
+    height: 50px;
+    width: 400px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 20px;
+}
+
+.accessSignUpRedirect{
+    align-self: center;
+    background: white;
+    margin-top: 27px;
+    color: #57c1d7;
+    font-size: 18px;
+}
+
+.accessSubmitContainer{
+    background: white;
+    display: flex;
+    gap:30px;
+    margin: 30px auto;
+}
+
+.accessSubmit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px;
+    height: 59px;
+    color: white;
+    background: #57c1d7;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.accessGoogle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+button[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #57c1d7;
+    color: white;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/************ End of Login Page / Registration Page Styling ************/
+
+
+/************ Old Login Page/ Registration Page Styling, leaving for now in case its used elsewhere ************/
+
+/*form {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: 200px;*/
+/*    margin: 15% auto 0;*/
+/*    padding: 20px;*/
+/*    border-radius: 2px;*/
+/*    background-color: white !* Combined with previous rule *!*/
+/*}*/
 
 form > input,
 form > div > input {
@@ -53,26 +163,8 @@ ul > li > button {
     background-color: #6c171e; /* Different color */
 }
 
-button[type="submit"] {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #c9af98;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+/************* Old Login Page/ Registration Page Styling, leaving for now in case its used elsewhere *************/
 
-button[type="submit"]:hover {
-    background-color: #8f7c6b;
-}
-
-.registeration,
-a[type="registration_link"] {
-    text-align: center;
-    color: #d4d4dc; /* Combined with previous rule */
-    margin-bottom: 0;
-}
 
 nav {
     color: #F5F5F5;
@@ -314,11 +406,6 @@ nav button:hover {
 }
 
 p {
-    background-color: rgba(201, 175, 152, 0.3);
-    border: 2px solid rgba(201, 175, 152, 0.9);
-}
-
-a {
     background-color: rgba(201, 175, 152, 0.3);
     border: 2px solid rgba(201, 175, 152, 0.9);
 }
