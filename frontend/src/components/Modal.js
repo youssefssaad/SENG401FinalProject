@@ -62,7 +62,7 @@ function Modal({
                 return;
             }
 
-            console.log("What the hell is the expenseIDs array here1? " + expenseIDs);
+            console.log("What the hell is the expenseIDs array here? " + expenseIDs);
 
             //Will find the expenseID using the goal's cateogry name here
             const expenseIndex = Object.keys(expenses).indexOf(goal.goal);
@@ -180,5 +180,4 @@ function Modal({
         </div>
     );
 }
-
 export default Modal;
