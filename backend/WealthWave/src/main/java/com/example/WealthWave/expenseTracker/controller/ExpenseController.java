@@ -53,7 +53,7 @@ public class ExpenseController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/remove/{id}")
     public ResponseEntity<Void> deleteExpense(@PathVariable String id) {
         try {
             expenseService.deleteExpense(id);
@@ -63,7 +63,7 @@ public class ExpenseController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Expense> updateExpense(@PathVariable String id, @RequestBody Expense expense) {
         try {
             return ResponseEntity.ok(expenseService.updateExistingExpense(id, expense));
@@ -71,4 +71,11 @@ public class ExpenseController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @GetMapping("/category/{categoryId}/usage")
+    public ResponseEntity<Boolean> checkCategoryUsage(@PathVariable String categoryId) {
+        boolean isUsed = expenseService.isCategoryUsed(categoryId);
+        return ResponseEntity.ok(isUsed);
+    }
+
 }

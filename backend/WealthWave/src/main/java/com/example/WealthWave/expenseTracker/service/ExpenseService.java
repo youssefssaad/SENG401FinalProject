@@ -73,6 +73,11 @@ public class ExpenseService {
         return expenseRepository.save(updateExpense);
 
     }
+
+    public boolean isCategoryUsed(String categoryId) {
+        // Checking to see if there are any expenses that are associated with the given categoryID for easier verification and efficiency
+        return expenseRepository.findFirstByCategoryId(categoryId).isPresent();
+    }
 }
 
 

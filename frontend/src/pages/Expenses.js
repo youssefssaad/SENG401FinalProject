@@ -18,10 +18,15 @@ function Expenses() {
 
   //added this..
   const ensureCategoryExists = async (categoryName) => {
+    if (!categoryName) {
+      console.error("Category name is undefined or empty");
+      throw new Error("Category name is required");
+    }
+
     const categoriesResponse = await fetch('http://localhost:8080/api/categories');
     const categories = await categoriesResponse.json();
 
-    let existingCategory = categories.find(category => category.name === categoryName);
+    let existingCategory = categories.find(category => category.name.trim().toLowerCase() === categoryName.trim().toLowerCase());
 
     if (!existingCategory) {
       const newCategoryResponse = await fetch('http://localhost:8080/api/categories', {
@@ -37,9 +42,49 @@ function Expenses() {
       }
 
       existingCategory = await newCategoryResponse.json();
+
     }
 
     return existingCategory.id;
+
+  };
+
+  const handleSaveExpense = async (expenseData) => {
+    try {
+
+      const categoryId = expenseData.categoryId;
+      const amount = parseFloat(expenseData.amount);
+
+      console.log("What is the categoryId here" + categoryId);
+      console.log("What is the amount here?" + amount);
+
+      if (isNaN(amount)) {
+        console.error("Invalid expense amount:", expenseData.amount);
+        return;
+      }
+
+      const finalExpenseData = {
+        amount: amount,
+      };
+
+      console.log("Sending expense data:", finalExpenseData);
+
+      // API call to save the expense
+      const response = await fetch(`http://localhost:8080/api/expenses/add/${categoryId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(finalExpenseData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add expense');
+      }
+
+    } catch (error) {
+      console.error('Error saving expense:', error);
+    }
   };
 
   const openModal = () => {
@@ -107,53 +152,15 @@ function Expenses() {
     // change name of backend method here @NourAjami
     await updateExpense(id, { ...expenseObject, amount: newTempExpenses[category] });
   };
-  
-
-  const handleSaveExpense = async (expenseData) => {
-    try {
-
-      const categoryId = await ensureCategoryExists(expenseData.category);
-      const amount = parseFloat(expenseData.amount);
-
-      if (isNaN(amount)) {
-        console.error("Invalid expense amount:", expenseData.amount);
-        return;
-      }
-
-      const finalExpenseData = {
-        amount: amount,
-        category: { id: categoryId },
-      };
-
-      console.log("Sending expense data:", finalExpenseData);
-
-      // API call to save the expense
-      const response = await fetch(`http://localhost:8080/api/expenses/add/${categoryId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(finalExpenseData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add expense');
-      }
-
-    } catch (error) {
-      console.error('Error saving expense:', error);
-    }
-  };
 
   const checkCategoryUsage = async (categoryId) => {
-    const expensesResponse = await fetch("http://localhost:8080/api/expenses");
-    const expenses = await expensesResponse.json();
-
-    return expenses.some(
-      (expense) => expense.category && expense.category.$id === categoryId
-    );
+    const response = await fetch(`http://localhost:8080/api/expenses/category/${categoryId}/usage`);
+    if (!response.ok) {
+      throw new Error("Failed to check category usage");
+    }
+    const isUsed = await response.json();
+    return isUsed;
   };
-
 
   const fetchExpenseIDs = async () => {
     try {
@@ -169,10 +176,6 @@ function Expenses() {
       console.error("Error fetching expense IDs:", error);
     }
   };
-
-  useEffect(() => {
-    fetchExpenseIDs();
-  }, []);
 
   const updateExpense = async (category, newAmount) => {
     try {
@@ -201,31 +204,6 @@ function Expenses() {
       console.error("Error updating expense:", error);
     }
   };
-  
-
-  const removeExpense = async (category) => {
-    try {
-      const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
-      const response = await fetch(
-        `http://localhost:8080/api/expenses/remove/${expenseId}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to remove expense");
-      }
-
-      //frontend update
-      const updatedExpenses = { ...expenses };
-      delete updatedExpenses[category];
-      setExpenses(updatedExpenses);
-      setTempExpenses(updatedExpenses);
-    } catch (error) {
-      console.error("Error removing expense:", error);
-    }
-  };
 
   useEffect(() => {
     getGoalsFromLocalStorage();
@@ -234,6 +212,10 @@ function Expenses() {
   useEffect(() => {
     updateExpensesFromGoals();
   }, [goalFields, totalBudget]);
+
+  useEffect(() => {
+    fetchExpenseIDs();
+  }, [totalBudget, expenses]);
 
   return (
     <div>
@@ -257,10 +239,15 @@ function Expenses() {
             updateGoalsInExpenses={updateGoalsInExpenses}
             totalBudget={totalBudget}
             goalFields={goalFields}
-            ensureCategoryExists={ensureCategoryExists} // Pass ensureCategoryExists to Modal
+            ensureCategoryExists={ensureCategoryExists}
             setNewExpenseAmount={setNewExpenseAmount}
             setNewExpenseCategory={setNewExpenseCategory}
             handleSaveExpense={handleSaveExpense}
+            setExpenses = {setExpenses}
+            expenses={expenses}
+            expenseIDs={expenseIDs}
+            setExpenseIDs = {setExpenseIDs}
+            checkCategoryUsage={checkCategoryUsage}
           />
         )}
         {showInstruction && <Instruction closeInstruction={closeInstruction} />}
