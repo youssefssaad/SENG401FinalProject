@@ -11,5 +11,6 @@ import java.util.Optional;
 @Component
 public interface ExpenseRepository extends MongoRepository<Expense, String>{
     Optional<Expense> findById(String id);
+    Optional<Expense> findFirstByCategoryId(String categoryId);
 
 }
