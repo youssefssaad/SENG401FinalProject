@@ -1,6 +1,7 @@
 package com.example.WealthWave.expenseTracker.controller;
 
 import com.example.WealthWave.expenseTracker.exceptions.CategoryNotFoundException;
+import com.example.WealthWave.expenseTracker.exceptions.ExpenseNotFoundException;
 import com.example.WealthWave.expenseTracker.model.Category;
 import com.example.WealthWave.expenseTracker.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class CategoryController {
         }
         return ResponseEntity.ok(categoryService.addCategory(category));
     }
-    
+
     @GetMapping
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
@@ -46,9 +47,19 @@ public class CategoryController {
     }
 
     @DeleteMapping("/remove/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCategory(@PathVariable String id) {
-        categoryService.deleteCategory(id);
+    public ResponseEntity<Void> deleteExpense(@PathVariable String id) {
+        try {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.ok().build();
+        } catch (ExpenseNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
+    @DeleteMapping("/removeByName/{categoryName}")
+    public void deleteCategoryByName(@PathVariable String categoryName) {
+        categoryService.deleteCategoryByName(categoryName);
+    }
+
 
 }

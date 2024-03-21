@@ -177,10 +177,6 @@ function Expenses() {
     }
   };
 
-  useEffect(() => {
-    fetchExpenseIDs();
-  }, []);
-
   const updateExpense = async (category, newAmount) => {
     try {
       const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
@@ -209,30 +205,6 @@ function Expenses() {
     }
   };
 
-  // const removeExpense = async (category) => {
-  //   try {
-  //     const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
-  //     const response = await fetch(
-  //       `http://localhost:8080/api/expenses/remove/${expenseId}`,
-  //       {
-  //         method: "DELETE",
-  //       }
-  //     );
-  //
-  //     if (!response.ok) {
-  //       throw new Error("Failed to remove expense");
-  //     }
-  //
-  //     //frontend update
-  //     const updatedExpenses = { ...expenses };
-  //     delete updatedExpenses[category];
-  //     setExpenses(updatedExpenses);
-  //     setTempExpenses(updatedExpenses);
-  //   } catch (error) {
-  //     console.error("Error removing expense:", error);
-  //   }
-  // };
-
   useEffect(() => {
     getGoalsFromLocalStorage();
   }, []);
@@ -240,6 +212,10 @@ function Expenses() {
   useEffect(() => {
     updateExpensesFromGoals();
   }, [goalFields, totalBudget]);
+
+  useEffect(() => {
+    fetchExpenseIDs();
+  }, [totalBudget, expenses]);
 
   return (
     <div>
@@ -263,7 +239,7 @@ function Expenses() {
             updateGoalsInExpenses={updateGoalsInExpenses}
             totalBudget={totalBudget}
             goalFields={goalFields}
-            ensureCategoryExists={ensureCategoryExists} // Pass ensureCategoryExists to Modal
+            ensureCategoryExists={ensureCategoryExists}
             setNewExpenseAmount={setNewExpenseAmount}
             setNewExpenseCategory={setNewExpenseCategory}
             handleSaveExpense={handleSaveExpense}
