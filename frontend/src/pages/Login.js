@@ -41,7 +41,7 @@ const Login = () => {
                 if (data.token) {
                     console.log("what is the jwt token here?:", data.token);
                     localStorage.setItem('jwtToken', data.token);
-                    signIn({ username: input.username });
+                    signIn({ username: input.username }, data.token);
                     window.location.href = "/main";
                 } else {
                     alert("Login failed: No token received.");
@@ -69,7 +69,7 @@ const Login = () => {
             console.log("Is this the correct one?:", jwtToken);
             localStorage.setItem('jwtToken', jwtToken);
             alert(`Welcome ${data.name}!`);
-            signIn({ name: data.name });
+            signIn({ username: input.username }, data.token);
             console.log("JWT Token:", jwtToken);
 
         } catch (error) {
