@@ -1,5 +1,6 @@
 package com.example.WealthWave.authentication.controller;
 
+import com.example.WealthWave.authentication.config.JwtTokenProvider;
 import com.example.WealthWave.authentication.dtos.User;
 import com.example.WealthWave.authentication.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Console;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -16,9 +18,11 @@ import java.util.Objects;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping("/users/all")
@@ -27,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public ResponseEntity<String> UserLogin(@RequestBody Map<String, String> body){
+    public ResponseEntity<?> UserLogin(@RequestBody Map<String, String> body){
 
         String username = "";
         String password = "";
@@ -50,7 +54,12 @@ public class UserController {
             return new ResponseEntity<>("Invalid Login Credentials!", HttpStatus.BAD_REQUEST);
         }
         else{
-            return new ResponseEntity<>("Logged In!", HttpStatus.OK);
+            String token = jwtTokenProvider.createToken(user.getId().toString());
+
+            Map<String, String> tokenResponse = new HashMap<>();
+            tokenResponse.put("token", token);
+
+            return ResponseEntity.ok(tokenResponse);
         }
     }
 

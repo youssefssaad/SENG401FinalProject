@@ -10,12 +10,15 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.web.bind.annotation.*;
 import com.example.WealthWave.authentication.dtos.TokenDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
 
@@ -62,7 +65,7 @@ public class AuthController {
                 userRepository.save(user);
                 String userSessionToken = generateUserSessionToken(user);
 
-                //Returning this to the front end (as json for now, will fix after frontend is working)
+                //Returning this to the front end correctly now
                 return ResponseEntity.ok(new UserSessionDto(email, name, userSessionToken));
 
             } else {
@@ -79,11 +82,17 @@ public class AuthController {
     //A JWT session token will help us with this
     //Keep private as it will only be used in this class
     private String generateUserSessionToken(User user) {
-        long expirationTime = System.currentTimeMillis() + 3600000; // 1 hour expiration
+        long expirationTime = System.currentTimeMillis() + 36000000; // 1 hour expiration
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(user.getId())
+                .claim("email", user.getEmail())
                 .setExpiration(new Date(expirationTime))
-                .signWith(SignatureAlgorithm.HS512, jwtSecretKey) // Sign the JWT with your secret key
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
+    }
+
+    private Key getSigningKey() {
+        byte[] keyBytes = this.jwtSecretKey.getBytes(StandardCharsets.UTF_8);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
