@@ -5,9 +5,10 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
-    const signIn = (userData) => {
-        localStorage.setItem('user', JSON.stringify(userData));
-        setUser(userData);
+    const signIn = (userData, token) => {
+        const userWithToken = { ...userData, token };
+        localStorage.setItem('user', JSON.stringify(userWithToken));
+        setUser(userWithToken);
         window.location.href = "http://localhost:3000/main";
     };
 
