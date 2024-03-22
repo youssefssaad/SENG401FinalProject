@@ -6,7 +6,6 @@ import Expenses from "./pages/Expenses";
 import Loading from "./pages/Loading";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -21,8 +20,6 @@ function App() {
           <Route path="/loading" element={<Loading />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="*" element={<Loading />} />
       </Routes>
     </BrowserRouter>
   );
