@@ -78,6 +78,14 @@ public class ExpenseService {
         // Checking to see if there are any expenses that are associated with the given categoryID for easier verification and efficiency
         return expenseRepository.findFirstByCategoryId(categoryId).isPresent();
     }
+
+    public List<Expense> getExpensesForUser(String userId) {
+        List<Expense> expenses = expenseRepository.findByUserId(userId);
+        for (Expense expense : expenses) {
+            Category category = expense.getCategory();
+        }
+        return expenses;
+    }
 }
 
 

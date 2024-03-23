@@ -1,5 +1,7 @@
 package com.example.WealthWave;
 
+import com.example.WealthWave.authentication.config.JwtTokenFilter;
+import com.example.WealthWave.authentication.config.JwtTokenProvider;
 import com.example.WealthWave.authentication.config.SecurityConfig;
 import com.example.WealthWave.authentication.controller.AuthController;
 import com.example.WealthWave.authentication.controller.UserController;
@@ -17,7 +19,9 @@ import com.example.WealthWave.expenseTracker.repository.ExpenseRepository;
 import com.example.WealthWave.expenseTracker.service.CategoryService;
 import com.example.WealthWave.expenseTracker.service.ExpenseService;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,6 +44,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ComponentScan(basePackageClasses = CategoryController.class)
 @ComponentScan(basePackageClasses = Category.class)
 @ComponentScan(basePackageClasses = CategoryService.class)
+@ComponentScan(basePackageClasses = JwtTokenFilter.class)
+@ComponentScan(basePackageClasses = JwtTokenProvider.class)
 
 public class WealthWaveApplication {
 	public static void main(String[] args) {

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { PieChart } from 'react-minimal-pie-chart'; // Make sure to install this package
 import { saveAs } from 'file-saver'; // Make sure to install file-saver for CSV export
+import Navbar from '../components/Navbar';
 
 function Budget() {
   // Placeholder data - replace with actual data fetching logic
@@ -35,7 +36,8 @@ function Budget() {
   };
 
   return (
-    <div>
+    <div className='budget'>
+      <Navbar />
       <h1>Budget Overview</h1>
       <p>Total Monthly Income: ${income}</p>
       <p>Total Monthly Expenses: ${expenses}</p>
@@ -47,7 +49,7 @@ function Budget() {
         <h3>Budget Variance</h3>
         <p>Categories Spent On: {categories.length}</p>
         <h3>Income Analysis</h3>
-        <PieChart data={categories} />
+        <PieChart className='piechart' data={categories}/>
       </div>
 
       <h2>Exporting</h2>
