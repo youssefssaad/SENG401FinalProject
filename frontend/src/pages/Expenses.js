@@ -229,21 +229,21 @@ function Expenses() {
   }, [totalBudget, expenses]);
 
   return (
-    <div className="expenses-container">
-    <Navbar />
     <div>
-      <h1>Expenses</h1>
-    </div>
-    <div className="actions-container">
-      <button className="addButton" onClick={openModal}>Add expense</button>
-      <div className="instructions-modal" onClick={openInstruction}>
-        <img
-          src={questionIcon}
-          alt="Question Icon"
-          className="question-icon"
-        />
+      <Navbar />
+      <div>
+        <h1>Expenses</h1>
       </div>
-    </div>
+
+      <div className="container">
+        <div className="addButton addButton--active" onClick={openModal}></div>
+        <div className="instructions-modal" onClick={openInstruction}>
+          <img
+            src={questionIcon}
+            alt="Question Icon"
+            className="question-icon"
+          />
+        </div>{" "}
         {showModal && (
           <Modal
             closeModal={closeModal}
@@ -283,6 +283,7 @@ function Expenses() {
           </ul>
         </div>
       </div>
+    </div>
   );
 }
 
