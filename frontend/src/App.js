@@ -9,6 +9,7 @@ import Main from "./pages/Main";
 import Register from "./pages/Register";
 import '@fortawesome/fontawesome-free/css/all.css';
 import { AuthProvider, useAuth } from "./components/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
@@ -29,9 +30,9 @@ function RoutesApp() {
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/budget" element={<><Budget /></>} />
-                <Route path="/education" element={<><Education /></>} />
-                <Route path="/expenses" element={<><Expenses /></>} />
+                <Route path="/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
+                <Route path="/education" element={<ProtectedRoute><Education /></ProtectedRoute>} />
+                <Route path="/expenses" element={<ProtectedRoute><Expenses /></ProtectedRoute>} />
                 <Route path="/loading" element={<Loading />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="*" element={<Loading />} />
