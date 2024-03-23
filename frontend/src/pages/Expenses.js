@@ -18,14 +18,22 @@ function Expenses() {
 
   //added this..
   const ensureCategoryExists = async (categoryName) => {
+    const jwtToken = localStorage.getItem('jwtToken');
     if (!categoryName) {
       console.error("Category name is undefined or empty");
       throw new Error("Category name is required");
     }
 
-    const categoriesResponse = await fetch('http://localhost:8080/api/categories');
-    const categories = await categoriesResponse.json();
+    const categoriesResponse = await fetch('http://localhost:8080/api/categories', {
+      headers: {
+        'Authorization': `Bearer ${jwtToken}`
+      }
+    });
 
+    if (!categoriesResponse.ok) {
+      throw new Error('Failed to fetch categories');
+    }
+    const categories = await categoriesResponse.json();
     let existingCategory = categories.find(category => category.name.trim().toLowerCase() === categoryName.trim().toLowerCase());
 
     if (!existingCategory) {
@@ -33,6 +41,7 @@ function Expenses() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify({ name: categoryName }),
       });
@@ -51,7 +60,8 @@ function Expenses() {
 
   const handleSaveExpense = async (expenseData) => {
     try {
-
+      const jwtToken = localStorage.getItem('jwtToken');
+      console.log("What is the jwtToken here? " + jwtToken);
       const categoryId = expenseData.categoryId;
       const amount = parseFloat(expenseData.amount);
 
@@ -74,6 +84,7 @@ function Expenses() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify(finalExpenseData),
       });

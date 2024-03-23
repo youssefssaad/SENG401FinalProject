@@ -39,6 +39,8 @@ function Modal({
     };
 
     const removeGoal = async (id) => {
+        const jwtToken = localStorage.getItem('jwtToken');
+
         if (!expenseIDs.length) {
             console.error("Expense IDs are not yet available");
             return;
@@ -62,7 +64,7 @@ function Modal({
                 return;
             }
 
-            console.log("What the hell is the expenseIDs array here1? " + expenseIDs);
+            console.log("What the hell is the expenseIDs array here? " + expenseIDs);
 
             //Will find the expenseID using the goal's cateogry name here
             const expenseIndex = Object.keys(expenses).indexOf(goal.goal);
@@ -79,6 +81,9 @@ function Modal({
             // call the delete the expense endpoint
             const expenseResponse = await fetch(`http://localhost:8080/api/expenses/remove/${expenseId}`, {
                 method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${jwtToken}`
+                },
             });
             if (!expenseResponse.ok) {
                 throw new Error("Failed to remove expense");
@@ -95,6 +100,9 @@ function Modal({
                 // Assuming the goal.goal is the name here.
                 const categoryResponse = await fetch(`http://localhost:8080/api/categories/removeByName/${goal.goal}`, {
                     method: "DELETE",
+                    headers: {
+                        'Authorization': `Bearer ${jwtToken}`
+                    },
                 });
                 if (!categoryResponse.ok) {
                     throw new Error("Failed to remove category");
@@ -180,5 +188,4 @@ function Modal({
         </div>
     );
 }
-
 export default Modal;
