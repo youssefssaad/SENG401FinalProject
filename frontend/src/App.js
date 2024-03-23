@@ -6,7 +6,6 @@ import Expenses from "./pages/Expenses";
 import Loading from "./pages/Loading";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import Settings from "./pages/Settings";
 import Register from "./pages/Register";
 import '@fortawesome/fontawesome-free/css/all.css';
 import { AuthProvider, useAuth } from "./components/AuthContext";
@@ -37,13 +36,4 @@ function AppContent() {
     );
 }
 
-function App() {
-    return (
-        <AuthProvider>
-            <BrowserRouter>
-                <AppContent />
-            </BrowserRouter>
-        </AuthProvider>
-    );
-}
 export default App;

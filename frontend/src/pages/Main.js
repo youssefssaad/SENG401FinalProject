@@ -1,13 +1,22 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import '../index.css';
+import Footer from '../components/Footer';
+import Testimonials from '../components/Testimonials';
+import Header from '../components/Header';
+import Description from '../components/Description';
+import MainInst from '../components/MainInst';
+
 
 function Main() {
   return (
-    <div>
-      <Navbar />
-      <div><h1>Main</h1></div>
+    <div className='main-page'>
+      <Header/>
+      <MainInst />
+      <Description />
+      <Testimonials />
+      <Footer />
     </div>
   );
-};
+  };
 
 export default Main;
