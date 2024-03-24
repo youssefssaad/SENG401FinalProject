@@ -255,6 +255,45 @@ function Expenses() {
     fetchExpenseIDs();
   }, [totalBudget, expenses]);
 
+  //This useEffect is fetching all the expenses based on the user by calling the proper endpoint.
+  useEffect(() => {
+    console.log("Fetching user expenses");
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser && storedUser.token) {
+      const jwtToken = storedUser.token;
+      console.log("JWT Token found for testing: ", jwtToken);
+      const userID = storedUser.id;
+
+      console.log("What is the userID here?" + userID);
+
+      fetch(`http://localhost:8080/api/expenses/user/${userID}`, {
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`
+        }
+      })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('Failed to fetch user expenses.');
+            }
+          })
+          .then(expensesData => {
+            const fetchedExpenses = {};
+            expensesData.forEach(expense => {
+              fetchedExpenses[expense.category.name] = expense.amount;
+            });
+            setExpenses(fetchedExpenses);
+          })
+          .catch(error => {
+            console.error('Error fetching user expenses:', error);
+          });
+    }
+    else {
+      console.log("No user token found in localStorage");
+    }
+  }, []);
+
   return (
     <div className="expenses-container">
     <Navbar />

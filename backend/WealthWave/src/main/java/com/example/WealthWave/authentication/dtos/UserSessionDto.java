@@ -11,10 +11,15 @@ public class UserSessionDto {
     @JsonProperty("sessionToken")
     private String sessionToken;
 
-    public UserSessionDto(String email, String name, String sessionToken) {
+    @JsonProperty("id")
+    private String id;
+
+    public UserSessionDto(String email, String name, String id, String sessionToken) {
         this.email = email;
         this.name = name;
+        this.id = id;
         this.sessionToken = sessionToken;
+
     }
 
     public UserSessionDto(String email, String name) {
@@ -34,6 +39,15 @@ public class UserSessionDto {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getSessionToken() {
         return sessionToken;
     }
