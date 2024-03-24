@@ -14,8 +14,10 @@ import com.example.WealthWave.expenseTracker.controller.CategoryController;
 import com.example.WealthWave.expenseTracker.controller.ExpenseController;
 import com.example.WealthWave.expenseTracker.controller.BudgetController;
 import com.example.WealthWave.expenseTracker.exceptions.ExpenseNotFoundException;
+import com.example.WealthWave.expenseTracker.model.Budget;
 import com.example.WealthWave.expenseTracker.model.Category;
 import com.example.WealthWave.expenseTracker.model.Expense;
+import com.example.WealthWave.expenseTracker.repository.BudgetRepository;
 import com.example.WealthWave.expenseTracker.repository.CategoryRepository;
 import com.example.WealthWave.expenseTracker.repository.ExpenseRepository;
 import com.example.WealthWave.expenseTracker.service.CategoryService;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @SpringBootApplication
 @EnableMongoRepositories
 @ComponentScan(basePackageClasses = BudgetController.class)
+@ComponentScan(basePackageClasses = Budget.class)
+@ComponentScan(basePackageClasses = BudgetRepository.class)
 @ComponentScan(basePackageClasses = AuthController.class)
 @ComponentScan(basePackageClasses = UserController.class)
 @ComponentScan(basePackageClasses = SecurityConfig.class)
