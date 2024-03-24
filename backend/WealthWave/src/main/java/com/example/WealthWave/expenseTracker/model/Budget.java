@@ -31,7 +31,7 @@ public class Budget {
         this.user = user;
     }
 
-    public double getBudget() {
+    public int getBudget() {
         return budget;
     }
 
