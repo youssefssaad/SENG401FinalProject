@@ -43,7 +43,7 @@ const Login = () => {
                 if (data.token) {
                     console.log("what is the jwt token here?:", data.token);
                     localStorage.setItem('jwtToken', data.token);
-                    localStorage.setItem('userId', data.userId);
+                    localStorage.setItem('userId', data.id);
                     signIn({ name: data.name, id: data.id }, data.token);
                 } else {
                     alert("Login failed: No token received.");
