@@ -16,7 +16,7 @@ const Login = () => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            window.location.href = "/main"; // Redirect to the main page
+            window.location.href = "/budget"; // Redirect to the main page
         }
     }, []);
 
@@ -38,11 +38,14 @@ const Login = () => {
                 });
                 const data = response.data;
 
+                console.log("What is the data here from the server here? ?" + data.id);
+
                 if (data.token) {
                     console.log("what is the jwt token here?:", data.token);
+                    //console.log("What is the user data then? " + input.id);
                     localStorage.setItem('jwtToken', data.token);
-                    signIn({ username: input.username }, data.token);
-                    window.location.href = "/main";
+                    signIn({ name: data.name, id: data.id }, data.token);
+                    // window.location.href = "/main";
                 } else {
                     alert("Login failed: No token received.");
                 }
@@ -63,13 +66,12 @@ const Login = () => {
         const data = backendResponse.data;
 
         console.log("Response from server:", data);
-        console.log("What is the RESPONSE NAME: " + response.name);
 
             const jwtToken = data.sessionToken;
             console.log("Is this the correct one?:", jwtToken);
             localStorage.setItem('jwtToken', jwtToken);
             alert(`Welcome ${data.name}!`);
-            signIn({ username: input.username }, data.token);
+            signIn({ name: data.name, id: data.id }, data.sessionToken);
             console.log("JWT Token:", jwtToken);
 
         } catch (error) {

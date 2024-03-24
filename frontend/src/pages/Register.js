@@ -49,7 +49,7 @@ const Register = () => {
             })
                 .then((response) => {
                     alert(`What's good ${input.username}?!`);
-                    window.location.href = "http://localhost:3000/";
+                    window.location.href = "http://localhost:3000/login";
                 }, (error) => {
                     alert(error.response.data);
                 });

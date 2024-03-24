@@ -63,10 +63,12 @@ public class AuthController {
                     user.setUsername(name);
                 }
                 userRepository.save(user);
+
+                String userId = user.getId();
                 String userSessionToken = generateUserSessionToken(user);
 
                 //Returning this to the front end correctly now
-                return ResponseEntity.ok(new UserSessionDto(email, name, userSessionToken));
+                return ResponseEntity.ok(new UserSessionDto(email, name, userId, userSessionToken));
 
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Google ID token.");
@@ -86,6 +88,7 @@ public class AuthController {
         return Jwts.builder()
                 .setSubject(user.getId())
                 .claim("email", user.getEmail())
+                .claim("id", user.getId())
                 .setExpiration(new Date(expirationTime))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();

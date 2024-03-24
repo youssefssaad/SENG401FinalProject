@@ -7,9 +7,12 @@ export const AuthProvider = ({ children }) => {
 
     const signIn = (userData, token) => {
         const userWithToken = { ...userData, token };
+        console.log("What is the userData then? " + userData.id);
         localStorage.setItem('user', JSON.stringify(userWithToken));
         setUser(userWithToken);
-        window.location.href = "http://localhost:3000/main";
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        console.log("The token and Id for the stored user is: " + storedUser.token + " " + storedUser.id);
+        window.location.href = "http://localhost:3000/expenses";
     };
 
     const signOut = () => {
