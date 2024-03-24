@@ -257,6 +257,7 @@ function Expenses() {
               fetchedExpenses[expense.category.name] = expense.amount;
             });
             setExpenses(fetchedExpenses);
+            setTempExpenses(fetchedExpenses);
           })
           .catch(error => {
             console.error('Error fetching user expenses:', error);
@@ -314,7 +315,7 @@ function Expenses() {
                     color: tempExpenses[category] > amount ? "red" : "green",
                   }}
                 >
-                  ${tempExpenses[category].toFixed(2)}
+                  ${tempExpenses[category]?.toFixed(2)}
                 </span>
                 <button onClick={() => handleDecrease(category)}>-</button>
               </li>
