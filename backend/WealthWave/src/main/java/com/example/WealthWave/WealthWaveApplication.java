@@ -9,8 +9,10 @@ import com.example.WealthWave.authentication.dtos.TokenDto;
 import com.example.WealthWave.authentication.dtos.User;
 import com.example.WealthWave.authentication.dtos.UserSessionDto;
 import com.example.WealthWave.authentication.repository.UserRepository;
+import com.example.WealthWave.expenseTracker.controller.BudgetController;
 import com.example.WealthWave.expenseTracker.controller.CategoryController;
 import com.example.WealthWave.expenseTracker.controller.ExpenseController;
+import com.example.WealthWave.expenseTracker.controller.BudgetController;
 import com.example.WealthWave.expenseTracker.exceptions.ExpenseNotFoundException;
 import com.example.WealthWave.expenseTracker.model.Category;
 import com.example.WealthWave.expenseTracker.model.Expense;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @SpringBootApplication
 @EnableMongoRepositories
+@ComponentScan(basePackageClasses = BudgetController.class)
 @ComponentScan(basePackageClasses = AuthController.class)
 @ComponentScan(basePackageClasses = UserController.class)
 @ComponentScan(basePackageClasses = SecurityConfig.class)

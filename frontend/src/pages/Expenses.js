@@ -53,10 +53,37 @@ function Expenses() {
       existingCategory = await newCategoryResponse.json();
 
     }
-
     return existingCategory.id;
-
   };
+
+  const handleSaveTotalBudget = async (budget) =>{
+    try {
+      const jwtToken = localStorage.getItem('jwtToken');
+      console.log("What is the jwtToken here? " + jwtToken);
+
+      if (isNaN(budget)) {
+        console.error("Invalid budget amount:", budget);
+        return;
+      }
+
+      // API call to save the expense
+      const response = await fetch(`http://localhost:8080/api/budget`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify(budget),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add expense');
+      }
+
+    } catch (error) {
+      console.error('Error saving expense:', error);
+    }
+  }
 
   const handleSaveExpense = async (expenseData) => {
     try {
@@ -254,6 +281,7 @@ function Expenses() {
             setNewExpenseAmount={setNewExpenseAmount}
             setNewExpenseCategory={setNewExpenseCategory}
             handleSaveExpense={handleSaveExpense}
+            handleSaveTotalBudget={handleSaveTotalBudget}
             setExpenses = {setExpenses}
             expenses={expenses}
             expenseIDs={expenseIDs}

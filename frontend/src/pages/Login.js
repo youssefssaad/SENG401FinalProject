@@ -41,6 +41,7 @@ const Login = () => {
                 if (data.token) {
                     console.log("what is the jwt token here?:", data.token);
                     localStorage.setItem('jwtToken', data.token);
+                    localStorage.setItem('userId', data.userId);
                     signIn({ username: input.username }, data.token);
                     window.location.href = "/main";
                 } else {
