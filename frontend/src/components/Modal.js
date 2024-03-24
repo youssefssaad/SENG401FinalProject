@@ -7,6 +7,7 @@ function Modal({
                    totalBudget,
                    goalFields: initialGoalFields,
                    handleSaveExpense,
+                   handleSaveTotalBudget,
                    ensureCategoryExists,
                    checkCategoryUsage,
                    expenseIDs,
@@ -133,6 +134,9 @@ function Modal({
 
             await handleSaveExpense({categoryId, amount});
         }
+
+        //save total budget
+        await handleSaveTotalBudget(inputTotalBudget);
 
         updateGoalsInExpenses(goalFields, inputTotalBudget);
         closeModal();
