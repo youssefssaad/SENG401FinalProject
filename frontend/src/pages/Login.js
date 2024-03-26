@@ -69,6 +69,7 @@ const Login = () => {
             const jwtToken = data.sessionToken;
             console.log("Is this the correct one?:", jwtToken);
             localStorage.setItem('jwtToken', jwtToken);
+            localStorage.setItem('userId', data.id);
             alert(`Welcome ${data.name}!`);
             signIn({ name: data.name, id: data.id }, data.sessionToken);
             console.log("JWT Token:", jwtToken);
