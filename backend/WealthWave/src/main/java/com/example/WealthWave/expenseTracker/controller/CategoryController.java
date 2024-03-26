@@ -46,6 +46,11 @@ public class CategoryController {
         return categoryService.updateCategory(id, updatedCategory);
     }
 
+    @PutMapping("/updateByName/{name}")
+    public Category updateCategoryByName(@PathVariable String name, @RequestBody Category updatedCategory) {
+        return categoryService.updateCategoryByName(name, updatedCategory);
+    }
+
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Void> deleteExpense(@PathVariable String id) {
         try {

@@ -265,6 +265,69 @@ nav a:hover {
 
 
 /************ Expenses - Main ************/
+.remove-expense-button {
+    background-color: #cc2936;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.remove-expense-button:hover {
+    background-color: #a81b28;
+    transform: scale(1.05);
+}
+
+.simulate-purchase-button {
+    background-color: #33475b;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.simulate-purchase-button:hover {
+    background-color: #12343b;
+    transform: scale(1.05);
+}
+
+.increase-button {
+    background-color: #57c1d7;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.increase-button:hover {
+    background-color: #3f9db8;
+    transform: scale(1.05);
+}
+
+.decrease-button {
+    background-color: #cc2936;
+    color: #FFFFFF;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.decrease-button:hover {
+    background-color: #a81b28;
+    transform: scale(1.05);
+}
 
 .modal-input-group {
     display: flex;

@@ -62,7 +62,8 @@ public class ExpenseService {
         updateExpense.setDate(expenseInformation.getDate());
 
         // Update category if it's changed
-        if (!updateExpense.getCategory().getId().equals(expenseInformation.getCategory().getId())) {
+        if (updateExpense.getCategory() != null && expenseInformation.getCategory() != null &&
+                !updateExpense.getCategory().getId().equals(expenseInformation.getCategory().getId())) {
             Optional<Category> category = categoryRepository.findById((expenseInformation.getCategory().getId()));
             if (!category.isPresent()) {
                 throw new RuntimeException("Category not found");
