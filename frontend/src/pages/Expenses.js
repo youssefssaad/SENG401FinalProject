@@ -171,56 +171,27 @@ function Expenses() {
     updateExpensesFromGoals();
   };
 
-  const handleIncrease = async (id, category, expenseObject) => {
+  const handleIncrease = async (id) => {
     if (!expenseIDs.includes(id)) {
       console.error("Invalid expense ID:", id);
       return;
     }
-    const tempTotal = Object.values(newTempExpenses).reduce(
-      (acc, curr) => acc + curr,
-      0
-    );
-    if (tempTotal > totalBudget) {
-      alert("Your spending has surpassed the budgeted amount for this month.");
-    }
-
+  
     const newAmount = tempExpenses[id] + 1;
-
+  
     // Update tempExpenses in state
     setTempExpenses((prevState) => ({ ...prevState, [id]: newAmount }));
+  
 
-    // Send update to backend
     try {
       const jwtToken = localStorage.getItem("jwtToken");
       await updateExpense(id, newAmount, jwtToken);
     } catch (error) {
       console.error("Error updating expense:", error);
     }
-
-    // const newTempExpenses = { ...tempExpenses };
-    // newTempExpenses[category] += 1;
-    // setTempExpenses(newTempExpenses);
-
-    // if (!expenseIDs.includes(id)) {
-    //   console.error("Invalid expense ID:", id);
-    //   return;
-    // }
-
-    // // Check if total temporary expenses exceed total budget, and if so, alert the user
-    // const tempTotal = Object.values(newTempExpenses).reduce(
-    //   (acc, curr) => acc + curr,
-    //   0
-    // );
-    // if (tempTotal > totalBudget) {
-    //   alert("Your spending has surpassed the budgeted amount for this month.");
-    // }
-
-    // // change name of backend method here @NourAjami
-    // await updateExpense(id, { ...expenseObject, amount: newTempExpenses[category] });
   };
-
-  const handleDecrease = async (id, category, expenseObject) => {
-
+  
+  const handleDecrease = async (id) => {
     if (!expenseIDs.includes(id) || tempExpenses[id] <= 0) {
       return;
     }
@@ -228,28 +199,18 @@ function Expenses() {
     const newAmount = tempExpenses[id] - 1;
   
     // Update tempExpenses in state
-    setTempExpenses(prevState => ({ ...prevState, [id]: newAmount }));
+    setTempExpenses((prevState) => ({ ...prevState, [id]: newAmount }));
   
-    // Send update to backend
+    // send update to backend
     try {
-      const jwtToken = localStorage.getItem('jwtToken');
+      const jwtToken = localStorage.getItem("jwtToken");
       await updateExpense(id, newAmount, jwtToken);
     } catch (error) {
-      console.error('Error updating expense:', error);
+      console.error("Error updating expense:", error);
     }
-
-    // const newTempExpenses = { ...tempExpenses };
-    // if (newTempExpenses[category] > 0) {
-    //   newTempExpenses[category] -= 1;
-    //   setTempExpenses(newTempExpenses);
-    // }
-
-    // // change name of backend method here @NourAjami
-    // await updateExpense(id, {
-    //   ...expenseObject,
-    //   amount: newTempExpenses[category],
-    });
   };
+  
+ 
 
   const checkCategoryUsage = async (categoryId) => {
     const response = await fetch(
