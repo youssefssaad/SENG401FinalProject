@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../index.css";
 
 function Modal({
@@ -11,26 +11,27 @@ function Modal({
                    ensureCategoryExists,
                    checkCategoryUsage,
                    expenseIDs,
-                   expenses
+                   expenses,
                }) {
     const [goalFields, setGoalFields] = useState(initialGoalFields || [{id: 1, goal: "", percentage: 0}]);
     const [inputTotalBudget, setInputTotalBudget] = useState(totalBudget || 0); // Initialize with 0 if totalBudget is not provided
+    const [initialGoals, setInitialGoals] = useState(goalFields);
 
     console.log("what is the expensesIDs in the beginning here? " + expenseIDs);
 
+    useEffect(() => {
+        setInitialGoals(goalFields);
+    }, []);
+
     const addMoreFields = () => {
         const newField = {
-            id: goalFields.length + 1,
-            goal: "",
-            percentage: 0,
+            id: goalFields.length + 1, goal: "", percentage: 0,
         };
         setGoalFields([...goalFields, newField]);
     };
 
     const handleInputChange = (id, key, value) => {
-        const updatedFields = goalFields.map((field) =>
-            field.id === id ? {...field, [key]: value} : field
-        );
+        const updatedFields = goalFields.map((field) => field.id === id ? {...field, [key]: value} : field);
         setGoalFields(updatedFields);
     };
 
@@ -40,6 +41,18 @@ function Modal({
     };
 
     const removeGoal = async (id) => {
+        const goalToRemove = goalFields.find(goal => goal.id === id);
+        if (!goalToRemove) {
+            console.error("Goal not found");
+            return;
+        }
+
+        if (goalToRemove.goal.trim() === "" && goalToRemove.percentage === 0) {
+            const updatedGoalFields = goalFields.filter(goalField => goalField.id !== id);
+            setGoalFields(updatedGoalFields);
+            return;
+        }
+
         const jwtToken = localStorage.getItem('jwtToken');
 
         if (!expenseIDs.length) {
@@ -81,8 +94,7 @@ function Modal({
 
             // call the delete the expense endpoint
             const expenseResponse = await fetch(`http://localhost:8080/api/expenses/remove/${expenseId}`, {
-                method: "DELETE",
-                headers: {
+                method: "DELETE", headers: {
                     'Authorization': `Bearer ${jwtToken}`
                 },
             });
@@ -100,8 +112,7 @@ function Modal({
                 //added this extra method in the backend
                 // Assuming the goal.goal is the name here.
                 const categoryResponse = await fetch(`http://localhost:8080/api/categories/removeByName/${goal.goal}`, {
-                    method: "DELETE",
-                    headers: {
+                    method: "DELETE", headers: {
                         'Authorization': `Bearer ${jwtToken}`
                     },
                 });
@@ -118,21 +129,34 @@ function Modal({
     };
 
     const saveGoals = async () => {
-        for (const {goal, percentage} of goalFields) {
+        const totalPercentage = goalFields.reduce((sum, goalField) => sum + parseFloat(goalField.percentage), 0);
+
+        // If the total percentage exceeds 100 in our expenses, display an error message and do not save the expense
+        if (totalPercentage > 100) {
+            alert("The sum of the percentages for all expenses cannot exceed 100.");
+            return;
+        }
+
+        for (const {id, goal, percentage} of goalFields) {
             if (goal.trim() === "" || percentage <= 0) {
                 alert("Please ensure all goals have a name and a positive percentage.");
                 return;
             }
 
-            console.log("the actual fuck is happening here? " + goal);
-
-            const categoryId = await ensureCategoryExists(goal); // Resolve category name to ID
+            const oldCategoryName = initialGoals.find(initialGoal => initialGoal.id === id)?.goal;
+            const categoryId = await ensureCategoryExists(goal, oldCategoryName); // Resolve category name to ID
             const amount = (inputTotalBudget * parseFloat(percentage)) / 100;
 
-            console.log("What is the category name here 2? " + categoryId);
-            console.log("What is the amount here in the saveGoal method? " + amount);
-
-            await handleSaveExpense({categoryId, amount});
+            // Check if an expense with the same category already exists
+            const existingExpenseIndex = initialGoals.findIndex(initialGoal => initialGoal.id === id);
+            if (existingExpenseIndex !== -1) {
+                // If it does, update the existing expense
+                const expenseId = expenseIDs[existingExpenseIndex];
+                await handleSaveExpense({categoryId, amount, expenseId});
+            } else {
+                // If it doesn't, create a new expense
+                await handleSaveExpense({categoryId, amount});
+            }
         }
 
         //save total budget
@@ -142,8 +166,7 @@ function Modal({
         closeModal();
     };
 
-    return (
-        <div className="modal">
+    return (<div className="modal">
             <div className="modal-content">
                 <button className="close-button" onClick={closeModal}>
                     X
@@ -157,8 +180,7 @@ function Modal({
                     value={inputTotalBudget}
                     onChange={handleTotalBudgetChange}
                 />
-                {goalFields.map(({id, goal, percentage}) => (
-                    <div key={id} className="modal-input-group">
+                {goalFields.map(({id, goal, percentage}) => (<div key={id} className="modal-input-group">
                         <input
                             className="modal-input"
                             type="text"
@@ -171,15 +193,12 @@ function Modal({
                             type="number"
                             placeholder="%"
                             value={percentage}
-                            onChange={(e) =>
-                                handleInputChange(id, "percentage", e.target.value)
-                            }
+                            onChange={(e) => handleInputChange(id, "percentage", e.target.value)}
                         />
                         <button className="remove-goal" onClick={() => removeGoal(id)}>
                             -
                         </button>
-                    </div>
-                ))}
+                    </div>))}
 
                 <button onClick={addMoreFields}>Add</button>
 
@@ -189,7 +208,7 @@ function Modal({
                     </button>
                 </div>
             </div>
-        </div>
-    );
+        </div>);
 }
+
 export default Modal;

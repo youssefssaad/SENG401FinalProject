@@ -42,6 +42,15 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    public Category updateCategoryByName(String name, Category updatedCategory) {
+        Category category = categoryRepository.findByName(name);
+        if (category != null) {
+            category.setName(updatedCategory.getName());
+            categoryRepository.save(category);
+        }
+        return category;
+    }
+
     public ResponseEntity<Void> deleteCategory(String id) throws ExpenseNotFoundException{
         Category category = categoryRepository.findById(id).orElseThrow(() -> new ExpenseNotFoundException("Exception was not found"));
         categoryRepository.deleteById(id);

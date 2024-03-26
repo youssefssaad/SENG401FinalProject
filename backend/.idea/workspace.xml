@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b3b8d71-c188-4ae6-bc5a-57037d6d5d64" name="Changes" comment="Commit for now">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/authentication/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/authentication/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/ExpenseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/ExpenseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.idea/frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/pages/Expenses.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/pages/Expenses.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +52,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.WealthWaveApplication.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "final-expense-please",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ajami/Documents/University Classes/SENG 401/backend",
     "node.js.detected.package.eslint": "true",
@@ -52,6 +64,7 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -65,6 +78,13 @@
       </method>
     </configuration>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-f644763e9732-c0c073db" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -75,6 +95,7 @@
       <updated>1711093505755</updated>
       <workItem from="1711093506838" duration="2641000" />
       <workItem from="1711193638699" duration="16423000" />
+      <workItem from="1711480345478" duration="6572000" />
     </task>
     <task id="LOCAL-00001" summary="Commit for now">
       <option name="closed" value="true" />
