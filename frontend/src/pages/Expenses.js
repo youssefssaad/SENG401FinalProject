@@ -6,19 +6,6 @@ import Instruction from "../components/Instruction";
 import Navbar from "../components/Navbar";
 
 function Expenses() {
-  // const [showModal, setShowModal] = useState(false);
-  // const [showInstruction, setShowInstruction] = useState(true);
-  // const [goalFields, setGoalFields] = useState([]);
-  // const [expenses, setExpenses] = useState({});
-  // const [totalBudget, setTotalBudget] = useState(0);
-  // const [tempExpenses, setTempExpenses] = useState({});
-  // const [newExpenseAmount, setNewExpenseAmount] = useState("");
-  // const [newExpenseCategory, setNewExpenseCategory] = useState("");
-  // const [expenseIDs, setExpenseIDs] = useState([]);
-  // const [categoryToId, setCategoryToId] = useState({});
-  // const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  // const [purchaseAmount, setPurchaseAmount] = useState(0);
-
   const [showModal, setShowModal] = useState(false);
   const [showInstruction, setShowInstruction] = useState(true);
   const [goalFields, setGoalFields] = useState(JSON.parse(localStorage.getItem('goalFields')) || []);
