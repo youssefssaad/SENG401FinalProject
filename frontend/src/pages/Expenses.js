@@ -525,8 +525,8 @@ function Expenses() {
                       color: tempExpenses[category] > amount ? "red" : "green",
                     }}
                 >
-                ${tempExpenses[category]?.toFixed(2)}
-              </span>
+              ${tempExpenses[category]?.toFixed(2)}
+            </span>
                 <button className="decrease-button" onClick={() => handleDecrease(category)}>-</button>
                 <button className="remove-expense-button" onClick={() => handleRemoveExpense(category)}>Remove expense</button>
                 <button className="simulate-purchase-button" onClick={() => openPurchaseModal(category)}>Simulate Purchase</button>
