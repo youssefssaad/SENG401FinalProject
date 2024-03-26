@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7f5fe2c-aa21-4841-9de3-8e835da77feb" name="Changes" comment="Displaying the expenses when user changes pages or logs out and back in. Adjusting backend logic.">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="e7f5fe2c-aa21-4841-9de3-8e835da77feb" name="Changes" comment="Potential fix.">
       <change beforePath="$PROJECT_DIR$/../backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -59,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1711093501218</updated>
       <workItem from="1711093502266" duration="3167000" />
-      <workItem from="1711193804265" duration="20677000" />
+      <workItem from="1711193804265" duration="21830000" />
     </task>
     <task id="LOCAL-00001" summary="Rebasing to fix PR">
       <option name="closed" value="true" />
@@ -85,7 +84,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711268809673</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Potential fix.">
+      <option name="closed" value="true" />
+      <created>1711308712204</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1711308712204</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,6 +113,7 @@
     <MESSAGE value="Rebasing to fix PR" />
     <MESSAGE value="Storing JWT the localStorage for statement management and centralized access." />
     <MESSAGE value="Displaying the expenses when user changes pages or logs out and back in. Adjusting backend logic." />
-    <option name="LAST_COMMIT_MESSAGE" value="Displaying the expenses when user changes pages or logs out and back in. Adjusting backend logic." />
+    <MESSAGE value="Potential fix." />
+    <option name="LAST_COMMIT_MESSAGE" value="Potential fix." />
   </component>
 </project>
