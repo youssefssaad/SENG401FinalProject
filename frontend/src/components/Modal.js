@@ -227,12 +227,12 @@ function Modal({
               }
             />
             <button className="remove-goal" onClick={() => removeGoal(id)}>
-              -
+              X
             </button>
           </div>
         ))}
 
-        <button onClick={addMoreFields}>Add</button>
+        <button className="add-expenses" onClick={addMoreFields}>Add</button>
 
         <div className="save-changes-cube">
           <button className="save-changes" onClick={saveGoals}>

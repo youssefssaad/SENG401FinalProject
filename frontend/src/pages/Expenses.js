@@ -567,7 +567,7 @@ function Expenses() {
         <ul>
           {Object.entries(expenses).map(([category, amount]) => (
             <li className="expenses-item-list" key={category}>
-              {category}
+              <div className="expense-category">{category}</div>
               <button
                 className="increase-button"
                 onClick={() => handleIncrease(category)}
