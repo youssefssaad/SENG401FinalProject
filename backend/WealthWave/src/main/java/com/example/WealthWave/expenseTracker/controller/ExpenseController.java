@@ -7,9 +7,9 @@ import com.example.WealthWave.expenseTracker.exceptions.CategoryNotFoundExceptio
 import com.example.WealthWave.expenseTracker.exceptions.ExpenseNotFoundException;
 import com.example.WealthWave.expenseTracker.model.Expense;
 import com.example.WealthWave.expenseTracker.service.ExpenseService;
-import com.google.common.net.HttpHeaders;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

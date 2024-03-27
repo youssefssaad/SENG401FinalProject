@@ -15,12 +15,9 @@ import java.util.List;
 
 public class ExcelUtil {
 
-    public static String HEADER[] = {"id", "amount", "user", "category", "date"};
+    public static String HEADER[] = {"id", "amount", "user", "category"};
 
     public static String SHEET_NAME = "ExpenseTable";
-    //static Budget b;
-
-    //public static String SHEET_NAME = String.valueOf(b.getBudget());
 
     public static ByteArrayInputStream dataToExcel(List<Expense> expenseList) throws IOException {
         Workbook workbook = new XSSFWorkbook();
@@ -45,7 +42,6 @@ public class ExcelUtil {
                 row1.createCell(1).setCellValue(ex.getAmount());
                 row1.createCell(2).setCellValue(ex.getUser().getUsername());
                 row1.createCell(3).setCellValue(ex.getCategory().getName());
-                //row1.createCell(4).setCellValue(ex.getDate());
             }
             workbook.write(byteArrayOutputStream);
             return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());

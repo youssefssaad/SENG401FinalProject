@@ -88,7 +88,7 @@ public class ExpenseService {
         }
         return expenses;
     }
-
+    
     public ByteArrayInputStream getUserDataDownloaded(String userId) throws IOException {
         List<Expense> expenses = expenseRepository.findByUserId(userId);
         ByteArrayInputStream data = ExcelUtil.dataToExcel(expenses);
