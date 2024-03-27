@@ -20,7 +20,7 @@ public class ExpenseService {
     private ExpenseRepository expenseRepository;
     private CategoryRepository categoryRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository) {
+    public ExpenseService(ExpenseRepository expenseRepository, CategoryRepository categoryRepository) {
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
     }
