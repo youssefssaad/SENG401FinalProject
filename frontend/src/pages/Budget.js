@@ -4,6 +4,7 @@ import { PieChart } from 'react-minimal-pie-chart'; // Make sure to install this
 import { saveAs } from 'file-saver'; // Make sure to install file-saver for CSV export
 import Navbar from '../components/Navbar';
 import axios from "axios";
+import * as XLSX from 'xlsx';
 
 function Budget() {
   const [budget, setBudget] = useState(0);
@@ -87,6 +88,22 @@ function Budget() {
     saveAs(blob, "transaction_history.csv");
   };
 
+    // Generate Excel content from expenses data
+    const downloadExcel = () => {
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(categories.map(category => ({
+        Category: category.title,
+        Amount: category.value
+      })));
+    
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Expenses");
+    
+      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([excelBuffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'});
+      saveAs(blob, "transaction_history.xlsx");
+    };
+    
+
   // Placeholder for email sharing functionality
   const shareBudgetSummary = () => {
     alert("Share budget summary functionality to be implemented.");
@@ -99,7 +116,6 @@ function Budget() {
           <p>Total Monthly Expenses: ${expenses}</p>
           <p>Total Budget: ${budget}</p>
           <p>Percentage of Budget Left: {savingsPercentage.toFixed(2)}%</p>
-
           <h2>Analytics</h2>
           <div>
               <h3>Budget Variance</h3>
@@ -107,7 +123,6 @@ function Budget() {
               <h3>Income Analysis</h3>
               <div style={{display: "flex"}}>
                   <PieChart className='piechart' data={categories}/>
-
                   <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
                       {categories.map(category => (
                           <tr key={category.title}>
@@ -126,14 +141,11 @@ function Budget() {
                           </tr>
                       ))}
                   </div>
-
-
               </div>
           </div>
-
           <h2>Exporting</h2>
           <button onClick={generateCSV}>Export Transaction History as CSV</button>
-          <button onClick={shareBudgetSummary}>Share Budget Summary via Email</button>
+          <button onClick={downloadExcel}>Download Excel File</button>
       </div>
   );
 }
