@@ -6,11 +6,12 @@ import com.example.WealthWave.expenseTracker.model.Category;
 import com.example.WealthWave.expenseTracker.model.Expense;
 import com.example.WealthWave.expenseTracker.repository.CategoryRepository;
 import com.example.WealthWave.expenseTracker.repository.ExpenseRepository;
+import com.example.WealthWave.util.ExcelUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class ExpenseService {
     private ExpenseRepository expenseRepository;
     private CategoryRepository categoryRepository;
 
-    public ExpenseService(ExpenseRepository expenseRepository, CategoryRepository categoryRepository) {
+    public ExpenseService(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
         this.categoryRepository = categoryRepository;
     }
@@ -85,6 +86,12 @@ public class ExpenseService {
             Category category = expense.getCategory();
         }
         return expenses;
+    }
+
+    public ByteArrayInputStream getUserDataDownloaded(String userId) throws IOException {
+        List<Expense> expenses = expenseRepository.findByUserId(userId);
+        ByteArrayInputStream data = ExcelUtil.dataToExcel(expenses);
+        return data;
     }
 }
 

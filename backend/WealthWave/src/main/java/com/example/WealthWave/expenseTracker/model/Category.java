@@ -1,5 +1,6 @@
 package com.example.WealthWave.expenseTracker.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -19,6 +20,12 @@ public class Category {
     @Getter
     @Setter
     private String description;
+
+    public Category(String id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
     @Override
     public String toString() {
