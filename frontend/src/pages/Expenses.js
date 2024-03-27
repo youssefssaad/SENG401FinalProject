@@ -152,6 +152,11 @@ function Expenses() {
       }
       const newExpense = await response.json();
       const newExpenseCategory = typeof newExpense.category === 'object' ? newExpense.category.name : newExpense.category;
+
+      setExpenses((prevState) => ({
+        ...prevState,
+        [newExpenseCategory]: newExpense.amount,
+      }));
       setCategoryToId((prevState) => ({
         ...prevState,
         [newExpenseCategory]: newExpense.id,
