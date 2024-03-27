@@ -48,10 +48,10 @@ public class SecurityConfig {
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/auth/**", "/public/**", "/api/auth/verify-token", "/api/expenses/**", "/users/create", "/users/login", "/api/budget/**", "/api/budget", "api/expenses/update/").permitAll() // Ensure your API endpoint is permitted
+                        .requestMatchers("/", "/auth/**", "/public/**", "/api/auth/verify-token", "/api/expenses/**", "/users/create", "/users/login", "/api/budget/**", "/api/budget", "api/expenses/update/", "api/expenses/export/", "api/categories/updateByName/").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class) // Add your JWT Token Filter here
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(AbstractHttpConfigurer::disable) // Disable OAuth2 login page redirection
                 .formLogin(AbstractHttpConfigurer::disable); // Disable form login page redirection
 

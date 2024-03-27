@@ -42,7 +42,7 @@ function Modal({
   };
 
   const handleTotalBudgetChange = (e) => {
-    const newTotalBudget = parseFloat(e.target.value); // Parse input value as a float. this was horrible to code.
+    const newTotalBudget = parseFloat(e.target.value);
     setInputTotalBudget(newTotalBudget);
   };
 
@@ -75,8 +75,6 @@ function Modal({
         return;
       }
 
-      console.log("Deleting goal with category name: " + goal.goal);
-
       console.log("Current expenses:", Object.keys(expenses));
 
       const categoryKey = Object.keys(expenses).find(
@@ -88,19 +86,14 @@ function Modal({
         return;
       }
 
-      console.log("What the hell is the expenseIDs array here? " + expenseIDs);
-
       //Will find the expenseID using the goal's cateogry name here
       const expenseIndex = Object.keys(expenses).indexOf(goal.goal);
       if (expenseIndex === -1) {
         console.error("Expense index not found for category:", goal.goal);
         return;
       }
-      console.log("What is the expenseIndex here? " + expenseIndex);
 
       const expenseId = expenseIDs[expenseIndex];
-
-      console.log("what the hell is the expenseId here? " + expenseId);
 
       // call the delete the expense endpoint
       const expenseResponse = await fetch(
@@ -118,8 +111,6 @@ function Modal({
 
       // Check if the category is used by any other expense
       const categoryUsed = await checkCategoryUsage(goal.goal);
-
-      console.log("What is the goal.goal here? name? id?" + goal.goal);
 
       if (!categoryUsed) {
         //check to see if the category is not used by other expenses, then deletes the category
