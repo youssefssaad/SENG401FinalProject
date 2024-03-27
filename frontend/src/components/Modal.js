@@ -232,7 +232,9 @@ function Modal({
           </div>
         ))}
 
-        <button className="add-expenses" onClick={addMoreFields}>Add</button>
+        <button className="add-expenses" onClick={addMoreFields}>
+          Add
+        </button>
 
         <div className="save-changes-cube">
           <button className="save-changes" onClick={saveGoals}>
