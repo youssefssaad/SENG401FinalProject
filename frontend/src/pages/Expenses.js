@@ -8,60 +8,81 @@ import Navbar from "../components/Navbar";
 function Expenses() {
   const [showModal, setShowModal] = useState(false);
   const [showInstruction, setShowInstruction] = useState(true);
-  const [goalFields, setGoalFields] = useState([]);
-  const [expenses, setExpenses] = useState({});
-  const [totalBudget, setTotalBudget] = useState(0);
-  const [tempExpenses, setTempExpenses] = useState({});
+  const [goalFields, setGoalFields] = useState(
+    JSON.parse(localStorage.getItem("goalFields")) || []
+  );
+  const [expenses, setExpenses] = useState(
+    JSON.parse(localStorage.getItem("expenses")) || {}
+  );
+  const [totalBudget, setTotalBudget] = useState(
+    JSON.parse(localStorage.getItem("totalBudget")) || 0
+  );
+  const [tempExpenses, setTempExpenses] = useState(
+    JSON.parse(localStorage.getItem("tempExpenses")) || {}
+  );
   const [newExpenseAmount, setNewExpenseAmount] = useState("");
   const [newExpenseCategory, setNewExpenseCategory] = useState("");
   const [expenseIDs, setExpenseIDs] = useState([]);
+  const [categoryToId, setCategoryToId] = useState(
+    JSON.parse(localStorage.getItem("categoryToId")) || {}
+  );
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [purchaseAmount, setPurchaseAmount] = useState(0);
+  const openPurchaseModal = (category) => {
+    setNewExpenseCategory(category); // Assuming you have this state variable
+    setShowPurchaseModal(true);
+  };
 
-  //added this..
-  const ensureCategoryExists = async (categoryName) => {
+  const ensureCategoryExists = async (
+    newCategoryName,
+    oldCategoryName = null
+  ) => {
     const jwtToken = localStorage.getItem("jwtToken");
-    if (!categoryName) {
-      console.error("Category name is undefined or empty");
-      throw new Error("Category name is required");
-    }
 
-    const categoriesResponse = await fetch(
-      "http://localhost:8080/api/categories",
-      {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      }
-    );
-
-    if (!categoriesResponse.ok) {
-      throw new Error("Failed to fetch categories");
-    }
-    const categories = await categoriesResponse.json();
-    let existingCategory = categories.find(
-      (category) =>
-        category.name.trim().toLowerCase() === categoryName.trim().toLowerCase()
-    );
-
-    if (!existingCategory) {
-      const newCategoryResponse = await fetch(
-        "http://localhost:8080/api/categories",
+    // If oldCategoryName is given, then just update the existing category
+    if (oldCategoryName) {
+      const response = await fetch(
+        `http://localhost:8080/api/categories/updateByName/${oldCategoryName}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${jwtToken}`,
           },
-          body: JSON.stringify({ name: categoryName }),
+          body: JSON.stringify({ name: newCategoryName }),
         }
       );
 
-      if (!newCategoryResponse.ok) {
-        throw new Error("Failed to create new category");
+      if (!response.ok) {
+        throw new Error("Failed to update category");
       }
 
-      existingCategory = await newCategoryResponse.json();
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const updatedCategory = await response.json();
+        return updatedCategory.id;
+      }
     }
-    return existingCategory.id;
+
+    // If oldCategoryName is not given, gotta make a new category
+    const response = await fetch(`http://localhost:8080/api/categories`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      body: JSON.stringify({ name: newCategoryName }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to create category");
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const newCategory = await response.json();
+      return newCategory.id;
+    }
   };
 
   const handleSaveTotalBudget = async (budget) => {
@@ -113,24 +134,122 @@ function Expenses() {
 
       console.log("Sending expense data:", finalExpenseData);
 
-      // API call to save the expense
-      const response = await fetch(
-        `http://localhost:8080/api/expenses/add/${categoryId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${jwtToken}`,
-          },
-          body: JSON.stringify(finalExpenseData),
-        }
-      );
+      let response;
+      if (expenseData.expenseId) {
+        // If an expense ID is provided, update the existing expense
+        response = await fetch(
+          `http://localhost:8080/api/expenses/update/${expenseData.expenseId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+            body: JSON.stringify(finalExpenseData),
+          }
+        );
+      } else {
+        // If no expense ID is provided, create a new expense
+        response = await fetch(
+          `http://localhost:8080/api/expenses/add/${categoryId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+            body: JSON.stringify(finalExpenseData),
+          }
+        );
+      }
 
       if (!response.ok) {
         throw new Error("Failed to add expense");
       }
+      const newExpense = await response.json();
+      const newExpenseCategory =
+        typeof newExpense.category === "object"
+          ? newExpense.category.name
+          : newExpense.category;
+
+      setExpenses((prevState) => ({
+        ...prevState,
+        [newExpenseCategory]: newExpense.amount,
+      }));
+      setCategoryToId((prevState) => ({
+        ...prevState,
+        [newExpenseCategory]: newExpense.id,
+      }));
     } catch (error) {
       console.error("Error saving expense:", error);
+    }
+  };
+
+  const handleRemoveExpense = async (category) => {
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+
+      // Get the expense ID for that category and yeet it from the state
+      const expenseId = categoryToId[category];
+      if (!expenseId) {
+        console.error(`Expense ID not found for category: ${category}`);
+        return;
+      }
+
+      // Delete the expense from the backend
+      const response = await fetch(
+        `http://localhost:8080/api/expenses/remove/${expenseId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to remove expense");
+      }
+
+      // Check if the category is used by any other expense
+      const categoryUsed = Object.keys(expenses).some(
+        (key) =>
+          key !== category &&
+          expenses[key].category === expenses[category].category
+      );
+
+      if (!categoryUsed) {
+        // If the category is not used by any other expense, delete the category
+        const categoryResponse = await fetch(
+          `http://localhost:8080/api/categories/removeByName/${category}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
+        if (!categoryResponse.ok) {
+          throw new Error("Failed to remove category");
+        }
+      }
+
+      setExpenses((prevExpenses) => {
+        const newExpenses = { ...prevExpenses };
+        delete newExpenses[category];
+        return newExpenses;
+      });
+
+      // Remove the expense from the local storage
+      localStorage.setItem("expenses", JSON.stringify(expenses));
+
+      setGoalFields((prevGoalFields) => {
+        const newGoalFields = prevGoalFields.filter(
+          (goalField) => goalField.goal !== category
+        );
+        return newGoalFields;
+      });
+    } catch (error) {
+      console.error(`Error removing expense for category ${category}:`, error);
     }
   };
 
@@ -171,17 +290,18 @@ function Expenses() {
     updateExpensesFromGoals();
   };
 
-  const handleIncrease = async (id) => {
-    if (!expenseIDs.includes(id)) {
-      console.error("Invalid expense ID:", id);
-      return;
+  const handleIncrease = async (category) => {
+    const id = categoryToId[category];
+    const newAmount = tempExpenses[category] + 1;
+
+    const goalField = goalFields.find(
+      (goalField) => goalField.goal === category
+    );
+    if (goalField) {
+      const goalAmount = (totalBudget * goalField.percentage) / 100;
     }
-  
-    const newAmount = tempExpenses[id] + 1;
-  
-    // Update tempExpenses in state
-    setTempExpenses((prevState) => ({ ...prevState, [id]: newAmount }));
-  
+
+    setTempExpenses((prevState) => ({ ...prevState, [category]: newAmount }));
 
     try {
       const jwtToken = localStorage.getItem("jwtToken");
@@ -190,17 +310,19 @@ function Expenses() {
       console.error("Error updating expense:", error);
     }
   };
-  
-  const handleDecrease = async (id) => {
-    if (!expenseIDs.includes(id) || tempExpenses[id] <= 0) {
+
+  const handleDecrease = async (category) => {
+    const id = categoryToId[category];
+    if (tempExpenses[category] <= 0) {
+      alert("Cannot decrease expense amount further");
       return;
     }
-  
-    const newAmount = tempExpenses[id] - 1;
-  
+
+    const newAmount = tempExpenses[category] - 1;
+
     // Update tempExpenses in state
-    setTempExpenses((prevState) => ({ ...prevState, [id]: newAmount }));
-  
+    setTempExpenses((prevState) => ({ ...prevState, [category]: newAmount }));
+
     // send update to backend
     try {
       const jwtToken = localStorage.getItem("jwtToken");
@@ -209,8 +331,6 @@ function Expenses() {
       console.error("Error updating expense:", error);
     }
   };
-  
- 
 
   const checkCategoryUsage = async (categoryId) => {
     const response = await fetch(
@@ -238,56 +358,91 @@ function Expenses() {
     }
   };
 
-  // const updateExpense = async (category, newAmount) => {
-  //   try {
-  //     const expenseId = expenseIDs[Object.keys(expenses).indexOf(category)];
-  //     const response = await fetch(
-  //       `http://localhost:8080/api/expenses/update/${expenseId}`,
-  //       {
-  //         method: "PUT",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ amount: newAmount }),
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to update expense");
-  //     }
-
-  //     // Update frontend state after successful backend update
-  //     const updatedExpenses = { ...expenses };
-  //     updatedExpenses[category] = newAmount;
-  //     setExpenses(updatedExpenses);
-  //     setTempExpenses(updatedExpenses);
-  //   } catch (error) {
-  //     console.error("Error updating expense:", error);
-  //   }
-  // };
-
   const updateExpense = async (id, newAmount, jwtToken) => {
-    const response = await fetch(`http://localhost:8080/api/expenses/update/${id}`, {
-      method: 'PUT', // or PATCH if your backend supports it
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwtToken}`
-      },
-      body: JSON.stringify({ amount: newAmount }),
-    });
-  
+    const response = await fetch(
+      `http://localhost:8080/api/expenses/update/${id}`,
+      {
+        method: "PUT", // or PATCH if your backend supports it
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        body: JSON.stringify({ amount: newAmount }),
+      }
+    );
+
     if (!response.ok) {
-      throw new Error('Failed to update expense');
+      throw new Error("Failed to update expense");
     }
-  
+
     // Optionally refresh or update local state based on response
     const updatedExpense = await response.json();
-    console.log('Updated expense:', updatedExpense);
+    console.log("Updated expense:", updatedExpense);
   };
-  
-//assumptions ive made
-//expenseIDs state is accurately populated with the IDs of the expenses
-//tempExpenses uses expense IDs as keys. 
+
+  const handleSimulatePurchase = async () => {
+    const id = categoryToId[newExpenseCategory];
+    const purchaseAmountValue = parseFloat(purchaseAmount);
+    if (isNaN(purchaseAmountValue)) {
+      alert("Invalid purchase amount");
+      return;
+    }
+
+    const newAmount = tempExpenses[newExpenseCategory] - purchaseAmount;
+    if (newAmount < 0) {
+      alert(
+        "You have reached 0 for this category, you cannot make any more purchases to decrease the amount further"
+      );
+      return;
+    }
+
+    if (newAmount < 10) {
+      // Change this value to adjust the threshold
+      alert("You are getting close to 0 for this category");
+    }
+
+    setTempExpenses((prevState) => ({
+      ...prevState,
+      [newExpenseCategory]: newAmount,
+    }));
+    setExpenses((prevState) => ({
+      ...prevState,
+      [newExpenseCategory]: newAmount,
+    }));
+
+    try {
+      const jwtToken = localStorage.getItem("jwtToken");
+      await updateExpense(id, newAmount, jwtToken);
+    } catch (error) {
+      console.error("Error updating expense:", error);
+    }
+
+    setShowPurchaseModal(false);
+  };
+
+  useEffect(() => {
+    // Get the state from local storage when the component is mounted
+    const savedExpenses = JSON.parse(localStorage.getItem("expenses"));
+    const savedTempExpenses = JSON.parse(localStorage.getItem("tempExpenses"));
+    const savedGoalFields = JSON.parse(localStorage.getItem("goalFields"));
+    const savedTotalBudget = JSON.parse(localStorage.getItem("totalBudget"));
+    const savedCategoryToId = JSON.parse(localStorage.getItem("categoryToId"));
+
+    if (savedExpenses) setExpenses(savedExpenses);
+    if (savedTempExpenses) setTempExpenses(savedTempExpenses);
+    if (savedGoalFields) setGoalFields(savedGoalFields);
+    if (savedTotalBudget) setTotalBudget(savedTotalBudget);
+    if (savedCategoryToId) setCategoryToId(savedCategoryToId);
+  }, []);
+
+  useEffect(() => {
+    // Store the state in local storage whenever it changes
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+    localStorage.setItem("tempExpenses", JSON.stringify(tempExpenses));
+    localStorage.setItem("goalFields", JSON.stringify(goalFields));
+    localStorage.setItem("totalBudget", JSON.stringify(totalBudget));
+    localStorage.setItem("categoryToId", JSON.stringify(categoryToId));
+  }, [expenses, tempExpenses, goalFields, totalBudget, categoryToId]);
 
   useEffect(() => {
     getGoalsFromLocalStorage();
@@ -326,11 +481,17 @@ function Expenses() {
         })
         .then((expensesData) => {
           const fetchedExpenses = {};
+          const fetchedCategoryToId = {};
           expensesData.forEach((expense) => {
             fetchedExpenses[expense.category.name] = expense.amount;
+            fetchedCategoryToId[expense.category.name] = expense.id;
           });
+          console.log(
+            "What is the fetchedCategoryID " + fetchedCategoryToId.id
+          );
           setExpenses(fetchedExpenses);
           setTempExpenses(fetchedExpenses);
+          setCategoryToId(fetchedCategoryToId);
         })
         .catch((error) => {
           console.error("Error fetching user expenses:", error);
@@ -374,7 +535,31 @@ function Expenses() {
           expenseIDs={expenseIDs}
           setExpenseIDs={setExpenseIDs}
           checkCategoryUsage={checkCategoryUsage}
+          showPurchaseModal={showPurchaseModal}
+          setPurchaseModal={setShowPurchaseModal}
         />
+      )}
+      {showPurchaseModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <button
+              className="close-button"
+              onClick={() => setShowPurchaseModal(false)}
+            >
+              X
+            </button>
+            <h3 className="modal-title">Simulate Purchase</h3>
+            <input
+              className="modal-input"
+              type="number"
+              value={purchaseAmount}
+              onChange={(e) => setPurchaseAmount(e.target.value)}
+            />
+            <button className="save-changes" onClick={handleSimulatePurchase}>
+              Submit
+            </button>
+          </div>
+        </div>
       )}
       {showInstruction && <Instruction closeInstruction={closeInstruction} />}
       <hr />
@@ -382,8 +567,13 @@ function Expenses() {
         <ul>
           {Object.entries(expenses).map(([category, amount]) => (
             <li className="expenses-item-list" key={category}>
-              {category}
-              <button onClick={() => handleIncrease(category)}>+</button>
+              <div className="expense-category">{category}</div>
+              <button
+                className="increase-button"
+                onClick={() => handleIncrease(category)}
+              >
+                +
+              </button>
               <span
                 className="expenses-monetary-amount"
                 style={{
@@ -392,7 +582,24 @@ function Expenses() {
               >
                 ${tempExpenses[category]?.toFixed(2)}
               </span>
-              <button onClick={() => handleDecrease(category)}>-</button>
+              <button
+                className="decrease-button"
+                onClick={() => handleDecrease(category)}
+              >
+                -
+              </button>
+              <button
+                className="remove-expense-button"
+                onClick={() => handleRemoveExpense(category)}
+              >
+                Remove Expense
+              </button>
+              <button
+                className="simulate-purchase-button"
+                onClick={() => openPurchaseModal(category)}
+              >
+                Simulate Purchase
+              </button>
             </li>
           ))}
         </ul>

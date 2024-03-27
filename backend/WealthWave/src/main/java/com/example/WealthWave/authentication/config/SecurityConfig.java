@@ -48,7 +48,7 @@ public class SecurityConfig {
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/auth/**", "/public/**", "/api/auth/verify-token", "/api/expenses/**", "/users/create", "/users/login", "/api/budget/**", "/api/budget").permitAll() // Ensure your API endpoint is permitted
+                        .requestMatchers("/", "/auth/**", "/public/**", "/api/auth/verify-token", "/api/expenses/**", "/users/create", "/users/login", "/api/budget/**", "/api/budget", "api/expenses/update/").permitAll() // Ensure your API endpoint is permitted
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class) // Add your JWT Token Filter here

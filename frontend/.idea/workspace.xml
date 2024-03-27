@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e7f5fe2c-aa21-4841-9de3-8e835da77feb" name="Changes" comment="Potential fix." />
+    <list default="true" id="e7f5fe2c-aa21-4841-9de3-8e835da77feb" name="Changes" comment="Potential fix.">
+      <change beforePath="$PROJECT_DIR$/../backend/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/authentication/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/authentication/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/controller/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/CategoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/ExpenseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/ExpenseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/frontend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Expenses.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Expenses.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="service-page" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -30,22 +45,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/ajami/Documents/University Classes/SENG 401/frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "final-expense-please",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/ajami/Documents/University Classes/SENG 401/frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -55,7 +70,8 @@
       <option name="presentableId" value="Default" />
       <updated>1711093501218</updated>
       <workItem from="1711093502266" duration="3167000" />
-      <workItem from="1711193804265" duration="21830000" />
+      <workItem from="1711193804265" duration="21934000" />
+      <workItem from="1711480352200" duration="12770000" />
     </task>
     <task id="LOCAL-00001" summary="Rebasing to fix PR">
       <option name="closed" value="true" />

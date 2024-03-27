@@ -16,7 +16,7 @@ const Login = () => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            window.location.href = "/budget"; // Redirect to the main page
+            window.location.href = "/intro"; // Redirect to the main page
         }
     }, []);
 
@@ -45,6 +45,7 @@ const Login = () => {
                     localStorage.setItem('jwtToken', data.token);
                     localStorage.setItem('userId', data.id);
                     signIn({ name: data.name, id: data.id }, data.token);
+                    window.location.href = "/intro";
                 } else {
                     alert("Login failed: No token received.");
                 }
@@ -69,9 +70,12 @@ const Login = () => {
             const jwtToken = data.sessionToken;
             console.log("Is this the correct one?:", jwtToken);
             localStorage.setItem('jwtToken', jwtToken);
+            localStorage.setItem('userId', data.id);
             alert(`Welcome ${data.name}!`);
+            localStorage.setItem('userId', data.id);
             signIn({ name: data.name, id: data.id }, data.sessionToken);
             console.log("JWT Token:", jwtToken);
+            window.location.href = "/intro";
 
         } catch (error) {
         console.error("Failed to authenticate with Google:", error);

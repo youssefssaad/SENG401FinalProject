@@ -1,13 +1,23 @@
 import React from 'react';
+import '../index.css';
+import SignOut from './SignOut';
+import { AuthProvider, useAuth } from "./AuthContext";
+
 
 const Navbar = () => {
+    const { user, signOut } = useAuth();
+
     return (
         <nav>
-            <ul style={{ listStyle: 'none' }}>
-                <li><a href="/Budget">Budget</a></li>
-                <li><a href="/Expenses">Expenses</a></li>
-                <li><a href="/Education">Education</a></li>
-            </ul>
+            <div className="nav-links-container">
+                <ul>
+                    <li><a href="/intro">Main</a></li>
+                    <li><a href="/budget">Budget</a></li>
+                    <li><a href="/expenses">Expenses</a></li>
+                    <li><a href="/education">Education</a></li>
+                </ul>
+            </div>
+            {user && <SignOut />}
         </nav>
     );
 };

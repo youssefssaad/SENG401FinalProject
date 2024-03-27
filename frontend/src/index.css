@@ -1,4 +1,5 @@
 /************ Globals ************/
+
 * {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
@@ -40,10 +41,16 @@ i {
     background-color: transparent;
     margin: 5px;
 }
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
 /************ End ************/
 
 
 /************ Login Page / Registration Page Styling ************/
+
 .accessContainer{
     display: flex;
     flex-direction: column;
@@ -153,21 +160,31 @@ button[type="submit"] {
 
 
 /************ Navigation Bar ************/
+
 nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     background-color: #2C3E50;
-    padding: 10px 20px;
+    padding: 20px;
+}
+
+.nav-links-container {
+    flex-grow: 1; /* Allow the container to grow and fill the space */
+    display: flex;
+    justify-content: center; /* Center the navigation links */
 }
 
 nav li {
-    display: inline;
-    margin-right: 40px;
-    background-color: transparent;
+    margin: 0 20px;
 }
 
 nav ul {
-    background-color: transparent;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-left: 160px;
+    align-items: center;
 }
 
 nav a {
@@ -175,12 +192,28 @@ nav a {
     color: #F39C12;
     font-size: xx-large;
     transition: color 0.3s ease;
-    background-color: transparent;
 }
 
 nav a:hover {
     cursor: pointer;
     color: black;
+}
+
+nav button {
+    padding: 10px 20px;
+    margin-left: auto; /* Push button to the right */
+    background-color: rgb(187, 21, 21);
+    color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+nav button:hover {
+    background-color: red;
+    transform: scale(1.05);
 }
 
 /************ End ************/
@@ -221,9 +254,9 @@ nav a:hover {
     margin: 15% auto 10%;
     padding: 20px;
     border: 1px solid #282828;
-    width: 80%;
+    width: 60%;
     border-radius: 6px;
-    max-height: 450px;
+    max-height: 600px;
     overflow: auto;
     display: flex;
     flex-direction: column;
@@ -279,17 +312,6 @@ nav a:hover {
     border-radius: 7px;
 }
 
-.remove-goal {
-    position: relative;
-    margin-left: 25%;
-    background-color: #cc2936;
-    border-radius: 40px;
-    margin-bottom: -4%;
-    justify-content: center;
-    align-items: center;
-    padding: 9px;
-}
-
 .modal-input {
     padding: 10px;
     margin-bottom: 7px;
@@ -298,7 +320,7 @@ nav a:hover {
     border: 1px solid #12343b;
     border-radius: 4px;
     background-color: #fff;
-    font-size: 13px;
+    font-size: 20px;
 }
 
 .container {
@@ -368,52 +390,95 @@ nav a:hover {
     margin-right: 40px;
 }
 
-
 .expenses-item-list {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #194851;
+    background-color: #393939;
     color: #ccc;
     margin: 0 auto;
-    padding: 18px;
+    padding: 10px;
     border-radius: 7px;
-    width: 28%;
+    width: 10%;
     margin-top: 3%;
+    font-size: 30px;
+}
+
+.expenses-item-list button{
+    font-size: 20px;
+    margin: 10px;
+}
+
+.expense-category {
+    font-size: 40px;
+    font-weight: bolder;
+    color: yellow;
+    padding-bottom: 20px;
 }
 
 .budget-input {
-    padding: 5px;
-    margin-bottom: 7px;
-    border: transparent;
+    padding: 0px;
     border-radius: 4px;
     background-color: transparent;
-    font-size: 13px;
-    width: 50%;
-    margin: 0 auto;
+    font-size: 20px;
+    margin-top: 20px;
 }
 
 .expenses-monetary-amount {
     background-color: inherit;
 }
 
-.save-changes-cube {
-    width: 100%;
-    background-color: inherit;
+.save-changes {
+    background-color: #33475b; 
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 10px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.save-changes {
-    color: #fff;
-    background-color: #cc2936;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    margin-top: 2%;
-    margin-left: 48%;
+.save-changes:hover {
+    background-color: #12343b;
+    transform: scale(1.05);
 }
+
+.add-expenses {
+    background-color: rgb(0, 117, 0); 
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 10px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.add-expenses:hover {
+    background-color: rgb(1, 201, 1);
+    transform: scale(1.05);
+}
+
+.remove-goal {
+    margin-left: 25%;
+    background-color: #b90615;
+    border-radius: 10px;
+    margin-bottom: -4%;
+    padding: 10px;
+    border: none;
+    width: 40px;
+    cursor: pointer;
+}
+
+.remove-goal:hover {
+    background-color: #ff0318;
+    transform: scale(1.05);
+}
+
 
 .fade-in {
     animation: fadeIn 0.5s ease-in-out;
@@ -463,6 +528,31 @@ nav a:hover {
     width: 20%;
     height: 20%;
 }
+
+.budget-analysis{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.category-row {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
 /************ End ************/
 
 
@@ -646,14 +736,15 @@ header h1{
 
 .inst-image img {
     max-width: 100%;
-    height: auto;
-    margin-top: 0;
+    height: 50%;
+    margin-top: 250px;
 }
 
 /************ End ************/
 
 
 /************* Footer *************/
+
 footer {
     color: #333;
     padding: 20px;
@@ -689,6 +780,27 @@ footer p{
     margin: 0 10px;
     text-decoration: none;
     color: #333;
+}
+
+/************ End ************/
+
+
+/************* IntroPage *************/
+
+.intro-page {
+    text-align: center;
+    padding: 20px;
+}
+
+.intro-sections ul {
+    margin-top: 20px;
+    list-style: none;
+}
+
+.intro-sections li {
+    margin: 10px 0;
+    font-size: 25px;
+    padding-top: 10px;
 }
 
 /************ End ************/

@@ -9,12 +9,13 @@ function Budget() {
   const [budget, setBudget] = useState(0);
   const [expenses, setExpenses] = useState(0);
   const [categories, setCategories] = useState([]);
+  const savings = budget - expenses;
+  const savingsPercentage = (savings / budget) * 100;
 
   useEffect(() =>{
       fetchUserExpenses();
       fetchUserBudget();
   }, []);
-
 
   async function fetchUserBudget() {
       try {
@@ -26,11 +27,11 @@ function Budget() {
               console.log(data);
               setBudget(data["budget"])
           } else {
-              alert("Search for user budget failed");
+              alert("Searching for a user budget has failed. Please ensure that you have set a budget in the Expenses Tab");
           }
       } catch (error) {
           console.error("error:", error);
-          alert("Search for budget failed failed");
+          alert("Error when fetching user budget");
       }
   }
 
@@ -51,7 +52,7 @@ function Budget() {
                   totalExpensesValue += data[i]["amount"];
 
                   //initializing data for pie chart
-                  var randomColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+                  const randomColor = "#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0")
                   let currentPieData ={
                       title: data[i]["category"]["name"],
                       value: data[i]["amount"],
@@ -64,37 +65,30 @@ function Budget() {
               setExpenses(totalExpensesValue);
 
           } else {
-              alert("Search for expenses failed");
+              alert("Searching for expenses has failed. Please ensure that you have created expenses in the Expenses Tab");
           }
       } catch (error) {
-          console.error("Login failed:", error);
-          alert("Search for expenses failed");
+          alert("Error when fetching user expenses");
       }
   }
 
-  const savings = budget - expenses;
-  const savingsPercentage = (savings / budget) * 100;
-
   // Generate CSV content from expenses data
   const generateCSV = () => {
-    let csvContent = "data:text/csv;charset=utf-8,";
+    let csvContent = "";
     csvContent += "Category,Amount\n";
     categories.forEach(category => {
       csvContent += `${category.title},${category.value}\n`;
     });
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, "transaction_history.csv");
-  };
-
-  // Placeholder for email sharing functionality
-  const shareBudgetSummary = () => {
-    alert("Share budget summary functionality to be implemented.");
+    let user =JSON.parse(localStorage.getItem('user'));
+    saveAs(blob, user.name + "_Expenses.csv");
   };
 
   return (
+    <div>
+    <Navbar/>
       <div className='budget'>
-          <Navbar/>
           <h1>Budget Overview</h1>
           <p>Total Monthly Expenses: ${expenses}</p>
           <p>Total Budget: ${budget}</p>
@@ -133,7 +127,7 @@ function Budget() {
 
           <h2>Exporting</h2>
           <button onClick={generateCSV}>Export Transaction History as CSV</button>
-          <button onClick={shareBudgetSummary}>Share Budget Summary via Email</button>
+      </div>
       </div>
   );
 }
