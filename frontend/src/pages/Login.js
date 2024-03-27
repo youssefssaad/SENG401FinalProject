@@ -71,6 +71,7 @@ const Login = () => {
             localStorage.setItem('jwtToken', jwtToken);
             localStorage.setItem('userId', data.id);
             alert(`Welcome ${data.name}!`);
+            localStorage.setItem('userId', data.id);
             signIn({ name: data.name, id: data.id }, data.sessionToken);
             console.log("JWT Token:", jwtToken);
 
