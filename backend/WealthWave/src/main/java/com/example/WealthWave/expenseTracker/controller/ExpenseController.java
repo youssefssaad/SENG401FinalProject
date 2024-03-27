@@ -42,10 +42,6 @@ public class ExpenseController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 String userId = authentication.getName();
 
-            System.out.println("What is the email here exactly? " + userId);
-            System.out.println("What the fuck is the expense here?: " + expense);
-
-
             Optional<User> userOptional = userRepository.findById(userId);
 
             if (!userOptional.isPresent()) {
@@ -88,7 +84,7 @@ public class ExpenseController {
     public ResponseEntity<Void> deleteExpense(@PathVariable String id) {
         try {
             expenseService.deleteExpense(id);
-            return ResponseEntity.ok().build(); // Simplified to return just the status code
+            return ResponseEntity.ok().build();
         } catch (ExpenseNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

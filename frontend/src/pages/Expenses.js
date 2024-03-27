@@ -29,7 +29,7 @@ function Expenses() {
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
   const [purchaseAmount, setPurchaseAmount] = useState(0);
   const openPurchaseModal = (category) => {
-    setNewExpenseCategory(category); // Assuming you have this state variable
+    setNewExpenseCategory(category);
     setShowPurchaseModal(true);
   };
 
@@ -120,9 +120,6 @@ function Expenses() {
       const categoryId = expenseData.categoryId;
       const amount = parseFloat(expenseData.amount);
 
-      console.log("What is the categoryId here" + categoryId);
-      console.log("What is the amount here?" + amount);
-
       if (isNaN(amount)) {
         console.error("Invalid expense amount:", expenseData.amount);
         return;
@@ -131,8 +128,6 @@ function Expenses() {
       const finalExpenseData = {
         amount: amount,
       };
-
-      console.log("Sending expense data:", finalExpenseData);
 
       let response;
       if (expenseData.expenseId) {
@@ -464,8 +459,6 @@ function Expenses() {
       const jwtToken = storedUser.token;
       console.log("JWT Token found for testing: ", jwtToken);
       const userID = storedUser.id;
-
-      console.log("What is the userID here?" + userID);
 
       fetch(`http://localhost:8080/api/expenses/user/${userID}`, {
         headers: {

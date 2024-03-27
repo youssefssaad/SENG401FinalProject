@@ -74,15 +74,23 @@ function Budget() {
 
     // Generate CSV content from expenses data
     const generateCSV = () => {
-        let csvContent = "";
-        csvContent += "Category,Amount\n";
-        categories.forEach(category => {
-            csvContent += `${category.title},${category.value}\n`;
-        });
+        const userId = localStorage.getItem("userId");
+        const url = `http://localhost:8080/api/expenses/export/${userId}`;
+        const token = localStorage.getItem("jwtToken");
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        let user =JSON.parse(localStorage.getItem('user'));
-        saveAs(blob, user.name + "_Expenses.csv");
+        axios({
+            url: url,
+            method: 'GET',
+            responseType: 'blob',
+            headers: { Authorization: `Bearer ${token}` },
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'expenses.xlsx');
+            document.body.appendChild(link);
+            link.click();
+        });
     };
 
     return (

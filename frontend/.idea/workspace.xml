@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e7f5fe2c-aa21-4841-9de3-8e835da77feb" name="Changes" comment="Potential fix.">
-      <change beforePath="$PROJECT_DIR$/../backend/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/backend.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/authentication/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/authentication/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/controller/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/controller/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/CategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/ExpenseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/WealthWave/src/main/java/com/example/WealthWave/expenseTracker/service/ExpenseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/frontend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/frontend.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Expenses.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Expenses.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +37,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "final-expense-please",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/ajami/Documents/University Classes/SENG 401/frontend",
     "node.js.detected.package.eslint": "true",
@@ -127,6 +115,7 @@
     <MESSAGE value="Storing JWT the localStorage for statement management and centralized access." />
     <MESSAGE value="Displaying the expenses when user changes pages or logs out and back in. Adjusting backend logic." />
     <MESSAGE value="Potential fix." />
-    <option name="LAST_COMMIT_MESSAGE" value="Potential fix." />
+    <MESSAGE value="Small workspace commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small workspace commit" />
   </component>
 </project>
