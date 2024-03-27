@@ -835,4 +835,33 @@ footer p {
   padding-top: 10px;
 }
 
+/*********** testimonials***********/
+
+
+.testimonial-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center children horizontally */
+    padding: 10px;
+    height: 250px; /* Adjust height as needed */
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .testimonial {
+    white-space: normal;
+    width: 90%; /* Adjust width as needed */
+    opacity: 1;
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Ensure centered placement */
+    padding: 10px;
+    z-index: 1; /* Ensure testimonial does not overlap buttons */
+  }
+
+/*********** end  testimonials ***********/
+
+
+
 /************ End ************/
