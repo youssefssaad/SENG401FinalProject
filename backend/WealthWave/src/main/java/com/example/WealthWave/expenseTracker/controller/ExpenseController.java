@@ -8,11 +8,17 @@ import com.example.WealthWave.expenseTracker.exceptions.ExpenseNotFoundException
 import com.example.WealthWave.expenseTracker.model.Expense;
 import com.example.WealthWave.expenseTracker.service.ExpenseService;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,6 +113,18 @@ public class ExpenseController {
     public ResponseEntity<List<Expense>> getExpensesByUser(@PathVariable String userId) {
         List<Expense> expenses = expenseService.getExpensesForUser(userId);
         return ResponseEntity.ok(expenses);
+    }
+
+    @GetMapping("/export/{userId}")
+    public ResponseEntity<InputStreamResource> export(@PathVariable String userId) throws IOException {
+        String fileName = "expenses.xlsx";
+        ByteArrayInputStream inputStream = expenseService.getUserDataDownloaded(userId);
+        InputStreamResource response = new InputStreamResource(inputStream);
+
+        ResponseEntity<InputStreamResource> responseEntity = ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+fileName)
+                .contentType(MediaType.parseMediaType("application/vnd.ms-excel")).body(response);
+        return responseEntity;
     }
 
 }
