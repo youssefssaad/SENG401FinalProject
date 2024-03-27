@@ -86,8 +86,9 @@ function Budget() {
   };
 
   return (
+    <div>
+    <Navbar/>
       <div className='budget'>
-          <Navbar/>
           <h1>Budget Overview</h1>
           <p>Total Monthly Expenses: ${expenses}</p>
           <p>Total Budget: ${budget}</p>
@@ -126,6 +127,7 @@ function Budget() {
 
           <h2>Exporting</h2>
           <button onClick={generateCSV}>Export Transaction History as CSV</button>
+      </div>
       </div>
   );
 }
