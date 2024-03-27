@@ -592,7 +592,7 @@ function Expenses() {
                 className="remove-expense-button"
                 onClick={() => handleRemoveExpense(category)}
               >
-                Remove expense
+                Remove Expense
               </button>
               <button
                 className="simulate-purchase-button"
