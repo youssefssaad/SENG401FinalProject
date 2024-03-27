@@ -1,5 +1,5 @@
 package com.example.WealthWave;
-
+import com.example.WealthWave.authentication.controller.AuthController;
 import com.example.WealthWave.authentication.dtos.TokenDto;
 import com.example.WealthWave.authentication.dtos.User;
 import com.example.WealthWave.authentication.dtos.UserSessionDto;

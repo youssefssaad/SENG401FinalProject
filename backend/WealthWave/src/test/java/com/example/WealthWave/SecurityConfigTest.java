@@ -1,4 +1,4 @@
-package com.example.WealthWave.authentication.config;
+package com.example.WealthWave;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

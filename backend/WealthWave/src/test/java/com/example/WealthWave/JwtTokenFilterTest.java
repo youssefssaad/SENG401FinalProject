@@ -1,5 +1,6 @@
-package com.example.WealthWave.authentication.config;
-
+package com.example.WealthWave;
+import com.example.WealthWave.authentication.config.JwtTokenFilter;
+import com.example.WealthWave.authentication.config.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import static org.mockito.Mockito.*;
 
@@ -46,7 +48,7 @@ public class JwtTokenFilterTest {
         when(jwtTokenProvider.getAuthentication("token")).thenReturn(authentication);
 
         // Act
-        jwtTokenFilter.doFilterInternal(request, response, filterChain);
+        jwtTokenFilter.doFilterPublic(request, response, filterChain);
 
         // Assert
         verify(jwtTokenProvider).validateToken("token");

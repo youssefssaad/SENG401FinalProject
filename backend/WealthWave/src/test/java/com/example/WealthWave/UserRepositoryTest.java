@@ -1,10 +1,10 @@
-package com.example.WealthWave.authentication.repository;
+package com.example.WealthWave;
 
 import com.example.WealthWave.authentication.dtos.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-
+import com.example.WealthWave.authentication.repository.UserRepository;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest

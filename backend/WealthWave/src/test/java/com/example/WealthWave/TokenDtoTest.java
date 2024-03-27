@@ -1,8 +1,8 @@
-package com.example.WealthWave.authentication.dtos;
+package com.example.WealthWave;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import com.example.WealthWave.authentication.dtos.TokenDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TokenDtoTest {

@@ -1,8 +1,8 @@
-package com.example.WealthWave.authentication.dtos;
+package com.example.WealthWave;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import com.example.WealthWave.authentication.dtos.UserSessionDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserSessionDtoTest {
@@ -11,7 +11,7 @@ public class UserSessionDtoTest {
 
     @BeforeEach
     public void init() {
-        userSessionDto = new UserSessionDto();
+        userSessionDto = new UserSessionDto("testEmail", "testName");
     }
 
     @Test
@@ -20,7 +20,6 @@ public class UserSessionDtoTest {
         String expectedEmail = "testEmail";
 
         // Act
-        userSessionDto.setEmail(expectedEmail);
         String actualEmail = userSessionDto.getEmail();
 
         // Assert
@@ -33,7 +32,6 @@ public class UserSessionDtoTest {
         String expectedName = "testName";
 
         // Act
-        userSessionDto.setName(expectedName);
         String actualName = userSessionDto.getName();
 
         // Assert

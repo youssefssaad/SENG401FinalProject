@@ -1,6 +1,7 @@
-package com.example.WealthWave.authentication.controller;
 
+package com.example.WealthWave;
 import com.example.WealthWave.authentication.config.JwtTokenProvider;
+import com.example.WealthWave.authentication.controller.UserController;
 import com.example.WealthWave.authentication.dtos.User;
 import com.example.WealthWave.authentication.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class UserControllerTest {
@@ -54,6 +56,7 @@ public class UserControllerTest {
     public void testUserLogin() {
         // Arrange
         User user = new User();
+        user.setId("testId");  // Set the id field
         user.setUsername("test");
         user.setPassword("password");
         Map<String, String> body = new HashMap<>();
@@ -61,16 +64,16 @@ public class UserControllerTest {
         body.put("password", "password");
         when(userRepository.findByUsername("test")).thenReturn(user);
         when(jwtTokenProvider.createToken(any())).thenReturn("token");
-
+    
         // Act
         ResponseEntity<?> response = userController.UserLogin(body);
-
+    
         // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(response.getBody() instanceof Map);
-        assertEquals("token", ((Map) response.getBody()).get("token"));
+        assertEquals("token", ((Map<String, String>) response.getBody()).get("token"));
     }
-
+    
     @Test
     public void testCreateUsers() {
         // Arrange
