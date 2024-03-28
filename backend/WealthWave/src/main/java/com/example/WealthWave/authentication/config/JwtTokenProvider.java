@@ -18,8 +18,6 @@ import java.util.*;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,6 +28,7 @@ public class JwtTokenProvider {
 
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
+    private long jwtExpirationInMs; // used for
 
     // Create JWT token for regular sign-in (Not google-sign, that one is creating it already in the AuthController)
     public String createToken(String username) {
