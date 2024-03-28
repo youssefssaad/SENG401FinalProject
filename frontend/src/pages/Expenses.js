@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import questionIcon from "../assets/question_icon.png";
 import Instruction from "../components/Instruction";
 import Navbar from "../components/Navbar";
+import REACT_APP_API_BASE_URL from '../config';
 
 function Expenses() {
   const [showModal, setShowModal] = useState(false);
@@ -42,7 +43,7 @@ function Expenses() {
     // If oldCategoryName is given, then just update the existing category
     if (oldCategoryName) {
       const response = await fetch(
-        `http://localhost:8080/api/categories/updateByName/${oldCategoryName}`,
+        `${REACT_APP_API_BASE_URL}/api/categories/updateByName/${oldCategoryName}`,
         {
           method: "PUT",
           headers: {
@@ -65,7 +66,7 @@ function Expenses() {
     }
 
     // If oldCategoryName is not given, gotta make a new category
-    const response = await fetch(`http://localhost:8080/api/categories`, {
+    const response = await fetch(`${REACT_APP_API_BASE_URL}/api/categories`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +97,7 @@ function Expenses() {
       }
 
       // API call to save the expense
-      const response = await fetch(`http://localhost:8080/api/budget`, {
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/budget`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +134,7 @@ function Expenses() {
       if (expenseData.expenseId) {
         // If an expense ID is provided, update the existing expense
         response = await fetch(
-          `http://localhost:8080/api/expenses/update/${expenseData.expenseId}`,
+          `${REACT_APP_API_BASE_URL}/api/expenses/update/${expenseData.expenseId}`,
           {
             method: "PUT",
             headers: {
@@ -146,7 +147,7 @@ function Expenses() {
       } else {
         // If no expense ID is provided, create a new expense
         response = await fetch(
-          `http://localhost:8080/api/expenses/add/${categoryId}`,
+          `${REACT_APP_API_BASE_URL}/api/expenses/add/${categoryId}`,
           {
             method: "POST",
             headers: {
@@ -193,7 +194,7 @@ function Expenses() {
 
       // Delete the expense from the backend
       const response = await fetch(
-        `http://localhost:8080/api/expenses/remove/${expenseId}`,
+        `${REACT_APP_API_BASE_URL}/api/expenses/remove/${expenseId}`,
         {
           method: "DELETE",
           headers: {
@@ -215,7 +216,7 @@ function Expenses() {
       if (!categoryUsed) {
         // If the category is not used by any other expense, delete the category
         const categoryResponse = await fetch(
-          `http://localhost:8080/api/categories/removeByName/${category}`,
+          `${REACT_APP_API_BASE_URL}/api/categories/removeByName/${category}`,
           {
             method: "DELETE",
             headers: {
@@ -329,7 +330,7 @@ function Expenses() {
 
   const checkCategoryUsage = async (categoryId) => {
     const response = await fetch(
-      `http://localhost:8080/api/expenses/category/${categoryId}/usage`
+      `${REACT_APP_API_BASE_URL}/api/expenses/category/${categoryId}/usage`
     );
     if (!response.ok) {
       throw new Error("Failed to check category usage");
@@ -340,7 +341,7 @@ function Expenses() {
 
   const fetchExpenseIDs = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/expenses");
+      const response = await fetch(`${REACT_APP_API_BASE_URL}/api/expenses`);
       if (response.ok) {
         const data = await response.json();
         const ids = data.map((expense) => expense.id);
@@ -355,7 +356,7 @@ function Expenses() {
 
   const updateExpense = async (id, newAmount, jwtToken) => {
     const response = await fetch(
-      `http://localhost:8080/api/expenses/update/${id}`,
+      `${REACT_APP_API_BASE_URL}/api/expenses/update/${id}`,
       {
         method: "PUT", // or PATCH if your backend supports it
         headers: {
@@ -460,7 +461,7 @@ function Expenses() {
       console.log("JWT Token found for testing: ", jwtToken);
       const userID = storedUser.id;
 
-      fetch(`http://localhost:8080/api/expenses/user/${userID}`, {
+      fetch(`${REACT_APP_API_BASE_URL}/api/expenses/user/${userID}`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -479,9 +480,6 @@ function Expenses() {
             fetchedExpenses[expense.category.name] = expense.amount;
             fetchedCategoryToId[expense.category.name] = expense.id;
           });
-          console.log(
-            "What is the fetchedCategoryID " + fetchedCategoryToId.id
-          );
           setExpenses(fetchedExpenses);
           setTempExpenses(fetchedExpenses);
           setCategoryToId(fetchedCategoryToId);
