@@ -4,7 +4,7 @@ import Modal from "../components/Modal";
 import questionIcon from "../assets/question_icon.png";
 import Instruction from "../components/Instruction";
 import Navbar from "../components/Navbar";
-import REACT_APP_API_BASE_URL from '../config';
+import { REACT_APP_API_BASE_URL, APP_BASE_URL } from '../config';
 
 function Expenses() {
   const [showModal, setShowModal] = useState(false);

@@ -4,7 +4,7 @@ import { PieChart } from 'react-minimal-pie-chart'; // Make sure to install this
 import { saveAs } from 'file-saver'; // Make sure to install file-saver for CSV export
 import Navbar from '../components/Navbar';
 import axios from "axios";
-import REACT_APP_API_BASE_URL from '../config';
+import { REACT_APP_API_BASE_URL, APP_BASE_URL } from '../config';
 
 function Budget() {
     const [budget, setBudget] = useState(0);

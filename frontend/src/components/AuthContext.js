@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import { REACT_APP_API_BASE_URL, APP_BASE_URL } from '../config';
 
 const AuthContext = createContext();
 
@@ -7,18 +8,17 @@ export const AuthProvider = ({ children }) => {
 
     const signIn = (userData, token) => {
         const userWithToken = { ...userData, token };
-        console.log("What is the userData then? " + userData.id);
         localStorage.setItem('user', JSON.stringify(userWithToken));
         setUser(userWithToken);
         const storedUser = JSON.parse(localStorage.getItem('user'));
         console.log("The token and Id for the stored user is: " + storedUser.token + " " + storedUser.id);
-        window.location.href = "http://localhost:3000/expenses";
+        window.location.href = `${APP_BASE_URL}/expenses`;
     };
 
     const signOut = () => {
         localStorage.removeItem('user');
         setUser(null);
-        window.location.href = "/";
+        window.location.href = `${APP_BASE_URL}/`;
     };
 
     return (
