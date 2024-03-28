@@ -4,6 +4,7 @@ import userImage from "../assets/person.png";
 import passwordImage from "../assets/password.png";
 import {GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 import {useAuth} from "../components/AuthContext";
+import { REACT_APP_API_BASE_URL, APP_BASE_URL } from '../config';
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -16,7 +17,7 @@ const Login = () => {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            window.location.href = "/intro"; // Redirect to the main page
+            window.location.href = `${APP_BASE_URL}/intro`; // Redirect to the main page
         }
     }, []);
 
@@ -32,7 +33,7 @@ const Login = () => {
         e.preventDefault();
         if (input.username !== "" && input.password !== "") {
             try {
-                const response = await axios.post('http://localhost:8080/users/login', {
+                const response = await axios.post(`${REACT_APP_API_BASE_URL}/users/login`, {
                     username: input.username,
                     password: input.password
                 });
@@ -45,7 +46,7 @@ const Login = () => {
                     localStorage.setItem('jwtToken', data.token);
                     localStorage.setItem('userId', data.id);
                     signIn({ name: data.name, id: data.id }, data.token);
-                    window.location.href = "/intro";
+                    window.location.href = `${APP_BASE_URL}/intro`;
                 } else {
                     alert("Login failed: No token received.");
                 }
@@ -62,8 +63,8 @@ const Login = () => {
         try {
 
         const token = response.credential;
-        const backendResponse = await axios.post('http://localhost:8080/api/auth/verify-token', {token})
-        const data = backendResponse.data;
+            const backendResponse = await axios.post(`${REACT_APP_API_BASE_URL}/api/auth/verify-token`, {token});
+            const data = backendResponse.data;
 
         console.log("Response from server:", data);
 
@@ -75,7 +76,7 @@ const Login = () => {
             localStorage.setItem('userId', data.id);
             signIn({ name: data.name, id: data.id }, data.sessionToken);
             console.log("JWT Token:", jwtToken);
-            window.location.href = "/intro";
+            window.location.href = `${APP_BASE_URL}/intro`;
 
         } catch (error) {
         console.error("Failed to authenticate with Google:", error);

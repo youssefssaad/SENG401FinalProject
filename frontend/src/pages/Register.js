@@ -4,6 +4,7 @@ import axios from "axios";
 import userImage from "../assets/person.png";
 import passwordImage from "../assets/password.png";
 import emailImage from "../assets/email.png";
+import { REACT_APP_API_BASE_URL, APP_BASE_URL } from '../config';
 
 const Register = () => {
     const [input, setInput] = useState({
@@ -42,14 +43,14 @@ const Register = () => {
             passwordMatch()
         )
         {
-            axios.post('http://localhost:8080/users/create', {
+            axios.post(`${REACT_APP_API_BASE_URL}/users/create`, {
                 email: input.email,
                 username: input.username,
                 password: input.password,
             })
                 .then((response) => {
                     alert(`What's good ${input.username}?!`);
-                    window.location.href = "http://localhost:3000/login";
+                    window.location.href = `${APP_BASE_URL}/login`;
                 }, (error) => {
                     alert(error.response.data);
                 });

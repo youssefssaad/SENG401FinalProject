@@ -97,7 +97,7 @@ function Modal({
 
       // call the delete the expense endpoint
       const expenseResponse = await fetch(
-        `http://localhost:8080/api/expenses/remove/${expenseId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/expenses/remove/${expenseId}`,
         {
           method: "DELETE",
           headers: {
@@ -117,7 +117,7 @@ function Modal({
         //added this extra method in the backend
         // Assuming the goal.goal is the name here.
         const categoryResponse = await fetch(
-          `http://localhost:8080/api/categories/removeByName/${goal.goal}`,
+          `${process.env.REACT_APP_API_BASE_URL}/api/categories/removeByName/${goal.goal}`,
           {
             method: "DELETE",
             headers: {

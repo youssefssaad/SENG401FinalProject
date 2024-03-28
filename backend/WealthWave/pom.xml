@@ -186,7 +186,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version> 
+				<version>3.2.0</version>
 				<executions>
 					<execution>
 						<phase>prepare-package</phase>
@@ -203,6 +203,12 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>appengine-maven-plugin</artifactId>
+				<version>2.4.0</version>
 			</plugin>
 		</plugins>
 	</build>
