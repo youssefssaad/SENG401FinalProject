@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../index.css";
+import { REACT_APP_API_BASE_URL, APP_BASE_URL } from '../config';
 
 function Modal({
   closeModal,
@@ -47,6 +48,11 @@ function Modal({
   };
 
   const removeGoal = async (id) => {
+    if (!expenseIDs.length) {
+      console.error("Expense IDs are not yet available");
+      return;
+    }
+
     const goalToRemove = goalFields.find((goal) => goal.id === id);
     if (!goalToRemove) {
       console.error("Goal not found");
@@ -97,7 +103,7 @@ function Modal({
 
       // call the delete the expense endpoint
       const expenseResponse = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/api/expenses/remove/${expenseId}`,
+        `${REACT_APP_API_BASE_URL}/api/expenses/remove/${expenseId}`,
         {
           method: "DELETE",
           headers: {
@@ -117,7 +123,7 @@ function Modal({
         //added this extra method in the backend
         // Assuming the goal.goal is the name here.
         const categoryResponse = await fetch(
-          `${process.env.REACT_APP_API_BASE_URL}/api/categories/removeByName/${goal.goal}`,
+          `${REACT_APP_API_BASE_URL}/api/categories/removeByName/${goal.goal}`,
           {
             method: "DELETE",
             headers: {
